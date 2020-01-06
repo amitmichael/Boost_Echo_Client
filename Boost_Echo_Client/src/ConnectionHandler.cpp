@@ -2,6 +2,7 @@
 #include <iostream>
 #include <boost/asio/ip/tcp.hpp>
 #include "../include/ConnectionHandler.h"
+#include <boost/system/error_code.hpp>
 
 //class tcp;
 
