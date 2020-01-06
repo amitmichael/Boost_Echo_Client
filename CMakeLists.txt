@@ -15,7 +15,7 @@ if(Boost_FOUND)
 
 endif()
 
-add_executable(Boost_Echo_Client Boost_Echo_Client/src/ConnectionHandler.cpp Boost_Echo_Client/include/ConnectionHandler.h Boost_Echo_Client/src/echoClient.cpp )
+add_executable(Boost_Echo_Client Boost_Echo_Client/src/ConnectionHandler.cpp Boost_Echo_Client/include/ConnectionHandler.h Boost_Echo_Client/src/echoClient.cpp Boost_Echo_Client/src/ClientKeyboard.cpp Boost_Echo_Client/include/ClientKeyboard.h Boost_Echo_Client/src/ClientSocket.cpp Boost_Echo_Client/include/ClientSocket.h Boost_Echo_Client/src/Frame.cpp Boost_Echo_Client/include/Frame.h Boost_Echo_Client/src/Inventory.cpp Boost_Echo_Client/include/Inventory.h Boost_Echo_Client/src/Book.cpp Boost_Echo_Client/include/Book.h)
 
 if(Boost_FOUND)
 
