@@ -1,5 +1,4 @@
 #include <stdlib.h>
-//#include <ConnectionHandler.h>
 #include "../include/ConnectionHandler.h"
 #include "../include/ClientKeyboard.h"
 #include "../include/ClientSocket.h"
@@ -27,7 +26,6 @@ int main (int argc, char *argv[]) {
     threadKeyboard.join();
     threadSocket.join();
     connectionHandler->close();
-
 
     return 0;
 }

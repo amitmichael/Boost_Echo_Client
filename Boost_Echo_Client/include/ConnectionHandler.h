@@ -48,7 +48,7 @@ public:
     // Close down the connection properly.
     void close();
 
-    ConnectionHandler(ConnectionHandler handler);
+    ConnectionHandler(ConnectionHandler const &handler);
 }; //class ConnectionHandler
  
 #endif

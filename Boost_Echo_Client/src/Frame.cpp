@@ -7,13 +7,13 @@
 
 Frame::Frame(boost::asio::streambuf &stomp_response) {
     loadStringValuesMap();
-    try {
+
         while (stomp_response.size() > 0){
 
         }
-    }
-}
 
+
+}
 
 void Frame::loadStringValuesMap() {
     s_mapStringValues.insert(std::make_pair("CONNECT", StringValue::CONNECT));
