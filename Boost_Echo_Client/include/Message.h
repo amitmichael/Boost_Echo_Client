@@ -6,20 +6,24 @@
 #define BOOST_ECHO_CLIENT_MESSAGE_H
 
 #include <map>
-#include "User.h"
+#include "../include/User.h"
+
 
 enum MessageType {login,
     join,
     add,
     borrow,
+    exitt, //double t
     returnn, //double n
     status,
-    logout};
+    logout,
+    clear
+    };
 
 class Message {
 
 public:
-    Message(User user);
+    Message(User* user);
     Message(std::string);
     MessageType getType();
     void loadMessageTypeMap();
@@ -32,6 +36,11 @@ public:
     std::string getHost();
     int getPort();
     void execute();
+    std::string getSubscriptionId();
+    std::string getreciptid();
+    void clear();
+
+
 
 private:
     MessageType type;
@@ -43,7 +52,9 @@ private:
     std::string host;
     int port;
     std::string password;
-    User user_;
+    User* user_;
+    std::string subscriptionId;
+    std::string reciptid;
 
 
 };

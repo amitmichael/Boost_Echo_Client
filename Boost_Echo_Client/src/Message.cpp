@@ -3,21 +3,34 @@
 //
 
 #include <string>
+#include <iostream>
 #include "../include/Message.h"
-#include "../include/User.h"
-#include "../include/Book.h"
 
 
-Message::Message(User user):user_(user){
+Message::Message(User* user):user_(user){
     loadMessageTypeMap();
-    userName = user.getName();
+    userName = user_->getName();
 }
 
 void Message::execute(){
-       if(add){
-            Inventory* inv =  user_.getInv();
+    int receiptid = user_->getAndIncrementreceiptId();
+    reciptid = std::to_string(receiptid);
+
+       if(type== add){
+            Inventory* inv =  user_->getInv();
             inv->addBook(new Book(bookName,userName,destination));
        }
+       if (type ==join){
+           int subid = user_->getAndIncrementSubscriptionId();
+           user_->addToGenreSubIdmap(destination,subid);
+           subscriptionId = std::to_string(subid);
+
+       }
+       if (type==exitt){
+           subscriptionId = std::to_string(user_->getSubIdByGenre(destination));
+           user_->removeFromenreSubIdmap(destination);
+       }
+
 }
 
 void Message::addFirst(std::string msg){
@@ -25,10 +38,23 @@ void Message::addFirst(std::string msg){
     command = msg;
 }
 
+void  Message::clear() {
+    type = MessageType::clear;
+    destination="";
+    command="";
+    bookName="";
+    userName="";
+    host="";
+    port=0;
+    password="";
+    subscriptionId="";
+    reciptid="";
+}
+
 void Message::addNext(std::string msg,int index){
     ////// first add////////////////////////////
     if (index==1){
-        if ( type == join| type ==add | type == borrow | type ==returnn | type == status){
+        if ( type == join| type ==add | type == borrow | type ==returnn | type == status| type == exitt){
             destination =msg;
         }
         if (type == login){
@@ -87,15 +113,25 @@ int Message::getPort(){
     return port;
 }
 
+std::string Message::getSubscriptionId(){
+    return subscriptionId;
+}
+std::string Message::getreciptid(){
+    return reciptid;
+}
+
 
 void Message::loadMessageTypeMap(){
+    mapMessageType.insert(std::make_pair("logout", MessageType::logout));
     mapMessageType.insert(std::make_pair("join", MessageType::join));
     mapMessageType.insert(std::make_pair("status", MessageType::status));
     mapMessageType.insert(std::make_pair("add", MessageType::add));
     mapMessageType.insert(std::make_pair("borrow", MessageType::borrow));
+    mapMessageType.insert(std::make_pair("exit", MessageType::exitt));
     mapMessageType.insert(std::make_pair("login", MessageType::login));
-    mapMessageType.insert(std::make_pair("logout", MessageType::logout));
     mapMessageType.insert(std::make_pair("return", MessageType::returnn));
+    mapMessageType.insert(std::make_pair("clear", MessageType::clear));
+
 
 
 
