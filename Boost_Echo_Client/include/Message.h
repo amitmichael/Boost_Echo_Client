@@ -20,7 +20,6 @@ class Message {
 
 public:
     Message(User user);
-
     Message(std::string);
     MessageType getType();
     void loadMessageTypeMap();
@@ -32,6 +31,7 @@ public:
     std::string getPassword();
     std::string getHost();
     int getPort();
+    void execute();
 
 private:
     MessageType type;
@@ -43,6 +43,7 @@ private:
     std::string host;
     int port;
     std::string password;
+    User user_;
 
 
 };

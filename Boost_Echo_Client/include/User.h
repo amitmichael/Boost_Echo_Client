@@ -7,6 +7,7 @@
 
 
 #include <string>
+#include "Inventory.h"
 
 class User {
 
@@ -14,9 +15,11 @@ public:
     User();
     std::string getName();
     bool isDefault();
+    Inventory* getInv();
 private:
     std::string name;
     bool Default ;
+    Inventory* inventory_;
 
 };
 

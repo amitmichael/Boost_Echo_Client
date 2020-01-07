@@ -5,7 +5,7 @@
 #include "../include/User.h"
 
 
-User::User(){
+User::User():inventory_(){
     Default=true;
     name = "defaultUser";
 };
@@ -14,4 +14,8 @@ std::string User::getName(){
 }
 bool User::isDefault(){
     return Default;
+}
+
+Inventory* User::getInv(){
+    return inventory_;
 }

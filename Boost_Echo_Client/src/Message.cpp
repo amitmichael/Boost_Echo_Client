@@ -5,17 +5,24 @@
 #include <string>
 #include "../include/Message.h"
 #include "../include/User.h"
+#include "../include/Book.h"
 
 
-Message::Message(User user){
+Message::Message(User user):user_(user){
     loadMessageTypeMap();
     userName = user.getName();
+}
 
+void Message::execute(){
+       if(add){
+            Book* book = new Book(bookName,userName,destination);
+            user_.getInv()->addBook(book);
+       }
 }
 
 void Message::addFirst(std::string msg){
-        type = mapMessageType.at(msg);
-        command = msg;
+    type = mapMessageType.at(msg);
+    command = msg;
 }
 
 void Message::addNext(std::string msg,int index){

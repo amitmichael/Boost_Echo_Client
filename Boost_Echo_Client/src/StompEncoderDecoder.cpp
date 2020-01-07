@@ -33,7 +33,7 @@ std::string StompEncoderDecoder::parseMsgFromKeyboard(std::string msg) {
 
     std::string word = "";
     int index =0;
-    Message parsedMsg(user_);
+    Message parsedMsg(user_) ;
     for (auto x: msg){
         if (x == ' '){
             if (index==0) { //first word
