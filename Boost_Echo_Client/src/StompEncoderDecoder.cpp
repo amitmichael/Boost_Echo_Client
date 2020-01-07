@@ -13,7 +13,9 @@ std::string StompEncoderDecoder::encode(Message msg){
     return toString(msg);
 
 }
-std::string StompEncoderDecoder::decodeNextByte(char byte){}
+std::string StompEncoderDecoder::decodeNextByte(char byte){
+    
+}
 
 
 std::string StompEncoderDecoder::toString(Message m) {
@@ -55,3 +57,10 @@ Message StompEncoderDecoder::parseMsgFromKeyboard(std::string msg) {
     return parsedMsg;
 
 }
+//Message StompEncoderDecoder::parseMsgFromSocket(char nextbyte){
+//    if (nextbyte == '\n') {
+//         Message parsedMsg(user_);
+//        // addFirst(
+//    }
+//
+//}
