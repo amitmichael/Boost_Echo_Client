@@ -7,16 +7,32 @@
 
 
 #include <string>
+#include "../include/Inventory.h"
+
 
 class User {
 
 public:
     User();
+    ~User();
     std::string getName();
     bool isDefault();
+    Inventory* getInv();
+    int getAndIncrementSubscriptionId();
+    int getAndIncrementreceiptId();
+    void addToGenreSubIdmap(std::string genre ,int id);
+    void removeFromenreSubIdmap(std::string genre);
+    int getSubIdByGenre(std::string genre);
+
 private:
     std::string name;
     bool Default ;
+    Inventory* inventory_;
+    int subscriptionIdCounter;
+    int receiptId;
+    std::map<std::string,int>* genreSubIMmap;
+
+
 
 };
 

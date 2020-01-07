@@ -6,22 +6,23 @@
 #include "../include/ConnectionHandler.h"
 
 
-ClientSocket::ClientSocket(ConnectionHandler* handler,std::string host, int port,bool shouldTerminate) : handler_(handler),host_(host),port_(port),shouldTerminate_(shouldTerminate){};
+ClientSocket::ClientSocket(ConnectionHandler* handler,std::string host, int port,bool* shouldTerminate,MsgInfo* info,
+                           bool* connected) : handler_(handler),host_(host),port_(port),shouldTerminate_(shouldTerminate),info_(info),connected_(connected){};
 
 void ClientSocket::connect() {
 
     if (!handler_->connect()) {
         std::cerr << "Cannot connect to " << host_ << ":" << port_ << std::endl;
-        connected_ =false;
+
     }
     else {
-        connected_=true;
+
     }
 
 }
 
 void ClientSocket::run() {
-    while (!shouldTerminate_){
+    while (!*shouldTerminate_){
 
     }
 }

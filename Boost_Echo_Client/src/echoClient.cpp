@@ -17,9 +17,11 @@ int main (int argc, char *argv[]) {
     short port = atoi(argv[2]);
     
     ConnectionHandler*  connectionHandler = new ConnectionHandler(host, port);
-    bool shouldTerminate = false;
-    ClientKeyboard clientKeyboard(connectionHandler,host,port,shouldTerminate);
-    ClientSocket clientSocket(connectionHandler,host,port,shouldTerminate);
+    MsgInfo* info = new MsgInfo();
+    bool* shouldTerminate = new bool(false);
+    bool* connected = new bool(false);
+    ClientKeyboard clientKeyboard(connectionHandler,host,port,shouldTerminate,info,connected);
+    ClientSocket clientSocket(connectionHandler,host,port,shouldTerminate,info,connected);
     clientSocket.connect();
     std::thread threadKeyboard(&ClientKeyboard::run,&clientKeyboard); // run keyboard thread
     std::thread threadSocket(&ClientSocket::run,&clientSocket); // run socket thread
