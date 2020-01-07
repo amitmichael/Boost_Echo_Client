@@ -5,9 +5,9 @@
 #include <string>
 #include "../include/Book.h"
 
-Book::Book(std::string name,std::string owner,std::string genre):name_(name),owner_(owner),genre_(genre){
+Book::Book(std::string name,std::string owner,std::string genre):name_(name),owner_(owner),genre_(genre){}
 
-}
+
 std::string Book::getName(){
     return name_;
 }

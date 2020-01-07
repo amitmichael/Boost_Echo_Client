@@ -15,8 +15,8 @@ Message::Message(User user):user_(user){
 
 void Message::execute(){
        if(add){
-            Book* book = new Book(bookName,userName,destination);
-            user_.getInv()->addBook(book);
+            Inventory* inv =  user_.getInv();
+            inv->addBook(new Book(bookName,userName,destination));
        }
 }
 

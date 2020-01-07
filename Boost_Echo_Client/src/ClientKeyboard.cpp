@@ -18,10 +18,11 @@ void ClientKeyboard::run() {
         char buf[bufsize];
         std::cin.getline(buf, bufsize);
         std::string line(buf);
-        std::string msg = enddec.parseMsgFromKeyboard(line);
-        std::cout << msg << std::endl;
-        //enddec.encode(msg);
-        handler_->sendBytes(msg.c_str(),msg.length());
+        Message msg = enddec.parseMsgFromKeyboard(line);
+        msg.execute();
+        std::string encoded = enddec.encode(msg);
+        std::cout << encoded << std::endl;
+        handler_->sendBytes(encoded.c_str(),encoded.length());
 
         }
 

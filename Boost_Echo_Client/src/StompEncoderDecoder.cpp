@@ -8,9 +8,9 @@
 
 StompEncoderDecoder::StompEncoderDecoder(User user):user_(user){}
 StompEncoderDecoder::~StompEncoderDecoder(){}
-std::string StompEncoderDecoder::encode(std::string msg){
+std::string StompEncoderDecoder::encode(Message msg){
 
-
+    return toString(msg);
 
 }
 std::string StompEncoderDecoder::decodeNextByte(char byte){}
@@ -29,7 +29,7 @@ std::string StompEncoderDecoder::toString(Message m) {
 
 
 
-std::string StompEncoderDecoder::parseMsgFromKeyboard(std::string msg) {
+Message StompEncoderDecoder::parseMsgFromKeyboard(std::string msg) {
 
     std::string word = "";
     int index =0;
@@ -52,6 +52,6 @@ std::string StompEncoderDecoder::parseMsgFromKeyboard(std::string msg) {
         }
     }
     parsedMsg.addNext(word,index);
-    return toString(parsedMsg);
+    return parsedMsg;
 
 }

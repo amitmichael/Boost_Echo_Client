@@ -13,6 +13,7 @@ class User {
 
 public:
     User();
+    ~User();
     std::string getName();
     bool isDefault();
     Inventory* getInv();

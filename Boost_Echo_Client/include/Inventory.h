@@ -13,6 +13,7 @@
 class Inventory {
 
 public:
+    Inventory();
     Inventory(std::string username);
     ~Inventory();
     void addBook(Book* book);

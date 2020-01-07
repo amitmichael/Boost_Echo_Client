@@ -5,9 +5,14 @@
 #include "../include/User.h"
 
 
-User::User():inventory_(){
+User::~User() {
+    delete(inventory_);
+}
+
+User::User(){
     Default=true;
     name = "defaultUser";
+    inventory_ = new Inventory(name);
 };
 std::string User::getName(){
     return name;

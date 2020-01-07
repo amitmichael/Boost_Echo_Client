@@ -7,7 +7,10 @@
 
 
 Inventory::~Inventory(){
-    for (auto it = books_.begin(); it!=books_.end();it++){
+    for (auto it = books_.begin(); it!=books_.end();it++){ //delete all books
+        delete(it->second);
+    }
+    for (auto it = borrowedBooks_.begin(); it!=borrowedBooks_.end();it++){ // delete all borrowed books
         delete(it->second);
     }
 }
@@ -21,11 +24,13 @@ Inventory::Inventory(std::string username):username_(username),books_(),borrowed
             books_.at(genre)->push_back(book);
         }
         else { // new genre
-            std::vector<Book*>* vec;
+            std::vector<Book*>* vec = new std::vector<Book*>;
             vec->push_back(book);
             books_.insert(std::make_pair(genre, vec));
         }
     }
+
+
 
 
 
