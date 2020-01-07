@@ -6,7 +6,7 @@
 #include "../include/ConnectionHandler.h"
 
 
-ClientSocket::ClientSocket(ConnectionHandler* handler,std::string host, int port,bool shouldTerminate) : handler_(handler),host_(host),port_(port),shouldTerminate_(shouldTerminate){};
+ClientSocket::ClientSocket(ConnectionHandler* handler,std::string host, int port,bool shouldTerminate,MsgInfo* info) : handler_(handler),host_(host),port_(port),shouldTerminate_(shouldTerminate),info_(info){};
 
 void ClientSocket::connect() {
 

@@ -15,7 +15,7 @@ if(Boost_FOUND)
 
 endif()
 
-add_executable(Boost_Echo_Client Boost_Echo_Client/src/ConnectionHandler.cpp Boost_Echo_Client/include/ConnectionHandler.h Boost_Echo_Client/src/echoClient.cpp Boost_Echo_Client/src/ClientKeyboard.cpp Boost_Echo_Client/include/ClientKeyboard.h Boost_Echo_Client/src/ClientSocket.cpp Boost_Echo_Client/include/ClientSocket.h Boost_Echo_Client/src/Frame.cpp Boost_Echo_Client/include/Frame.h Boost_Echo_Client/src/Inventory.cpp Boost_Echo_Client/include/Inventory.h Boost_Echo_Client/src/Book.cpp Boost_Echo_Client/include/Book.h Boost_Echo_Client/src/StompEncoderDecoder.cpp Boost_Echo_Client/include/StompEncoderDecoder.h Boost_Echo_Client/src/Message.cpp Boost_Echo_Client/include/Message.h Boost_Echo_Client/src/User.cpp Boost_Echo_Client/include/User.h)
+add_executable(Boost_Echo_Client Boost_Echo_Client/src/ConnectionHandler.cpp Boost_Echo_Client/include/ConnectionHandler.h Boost_Echo_Client/src/echoClient.cpp Boost_Echo_Client/src/ClientKeyboard.cpp Boost_Echo_Client/include/ClientKeyboard.h Boost_Echo_Client/src/ClientSocket.cpp Boost_Echo_Client/include/ClientSocket.h Boost_Echo_Client/src/Frame.cpp Boost_Echo_Client/include/Frame.h Boost_Echo_Client/src/Inventory.cpp Boost_Echo_Client/include/Inventory.h Boost_Echo_Client/src/Book.cpp Boost_Echo_Client/include/Book.h Boost_Echo_Client/src/StompEncoderDecoder.cpp Boost_Echo_Client/include/StompEncoderDecoder.h Boost_Echo_Client/src/Message.cpp Boost_Echo_Client/include/Message.h Boost_Echo_Client/src/User.cpp Boost_Echo_Client/include/User.h Boost_Echo_Client/src/MsgInfo.cpp Boost_Echo_Client/include/MsgInfo.h)
 
 if(Boost_FOUND)
 

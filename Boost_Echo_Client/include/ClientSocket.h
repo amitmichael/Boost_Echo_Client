@@ -7,21 +7,26 @@
 
 
 #include "ConnectionHandler.h"
+#include "../include/MsgInfo.h"
+
 
 class ClientSocket {
-private:
- ConnectionHandler* handler_;
- std::string host_;
- int port_;
- bool& shouldTerminate_;
- bool connected_;
 
 
 
 public:
-    ClientSocket(ConnectionHandler* handler,std::string host, int port, bool shouldTerminate);
+    ClientSocket(ConnectionHandler* handler,std::string host, int port, bool shouldTerminate,MsgInfo* info);
     void connect();
     void run();
+
+private:
+    ConnectionHandler* handler_;
+    std::string host_;
+    int port_;
+    bool& shouldTerminate_;
+    bool connected_;
+    MsgInfo* info_;
+
 
 };
 

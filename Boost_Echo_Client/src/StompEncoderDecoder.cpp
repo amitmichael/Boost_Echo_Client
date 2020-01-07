@@ -6,7 +6,7 @@
 #include "../include/Message.h"
 
 
-StompEncoderDecoder::StompEncoderDecoder(User user):user_(user){}
+StompEncoderDecoder::StompEncoderDecoder(User* user):user_(user){}
 StompEncoderDecoder::~StompEncoderDecoder(){}
 std::string StompEncoderDecoder::encode(Message msg){
 
@@ -20,6 +20,26 @@ std::string StompEncoderDecoder::toString(Message m) {
     std::string toReturn= "";
     if (m.getType() == add ){
         toReturn = "SEND\ndestination:" + m.getDestination() +'\n' + '\n' + m.getUserName()+" has added the book "+ m.getBookName() + '\n' + '\0';
+    }
+    if (m.getType() == join){
+
+        toReturn = "SUBSCRIBE\ndestination:" + m.getDestination() +'\n' +"id:" + m.getSubscriptionId() + '\n' + "receipt:" + m.getreciptid() + '\n' + '\n' + '\0';
+    }
+    if (m.getType() == exitt){
+        toReturn = "UNSUBSCRIBE\ndestination:" + m.getDestination() +'\n' +"id:" + m.getSubscriptionId() + '\n' + "receipt:" + m.getreciptid() + '\n' + '\n' + '\0';
+    }
+    if (m.getType() == login){
+        toReturn = "CONNECT\naccept-version:1.2\nhost:" +m.getHost()+ ":" +std::to_string(m.getPort())+ '\n'+ "login:" + m.getUserName() + '\n' + "passcode:" + m.getPassword() + '\n' + '\n' + '\0';
+    }
+    if (m.getType() == borrow){
+        toReturn = "SEND\ndestination:" + m.getDestination() +'\n' + '\n' + m.getUserName() + " wish to borrow " + m.getBookName() + '\n' + '\0';
+
+    }
+    if (m.getType() == returnn){
+        toReturn = "SEND\ndestination:" + m.getDestination() +'\n' + '\n'  + "Returning " + m.getBookName() + " to TBD" + '\n' + '\0';
+    }
+    if (m.getType() == status){
+        toReturn = "SEND\ndestination:" + m.getDestination() +'\n' + '\n'  + "book status"  + '\n' + '\0';
     }
 
 

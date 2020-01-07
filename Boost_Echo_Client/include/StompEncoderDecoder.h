@@ -12,11 +12,11 @@
 class StompEncoderDecoder {
 
 private:
-    User user_;
+    User* user_;
 
 
 public:
-    StompEncoderDecoder(User user);
+    StompEncoderDecoder(User* user);
     ~StompEncoderDecoder();
     std::string encode(Message msg);
     std::string decodeNextByte(char byte);
