@@ -16,7 +16,10 @@ void Message::execute(){
     int receiptid = user_->getAndIncrementreceiptId();
     reciptid = std::to_string(receiptid);
 
-       if(type== add){
+       if (type==login){
+           user_->setName(userName);
+       }
+        if(type== add){
             Inventory* inv =  user_->getInv();
             inv->addBook(new Book(bookName,userName,destination));
        }
@@ -96,7 +99,6 @@ std::string Message::getBookName(){
     return bookName;
 }
 
-
 std::string Message::getUserName(){
     return userName;
 }
@@ -112,6 +114,11 @@ std::string Message::getHost(){
 int Message::getPort(){
     return port;
 }
+
+User* Message::getUser(){
+    return user_;
+}
+
 
 std::string Message::getSubscriptionId(){
     return subscriptionId;

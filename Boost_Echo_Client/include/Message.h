@@ -39,6 +39,7 @@ public:
     std::string getSubscriptionId();
     std::string getreciptid();
     void clear();
+    User* getUser();
 
 
 

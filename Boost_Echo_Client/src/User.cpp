@@ -12,15 +12,15 @@ User::~User() {
 
 User::User(){
     Default=true;
-    name = "defaultUser";
-    inventory_ = new Inventory(name);
+    name_ = "defaultUser";
+    inventory_ = new Inventory(name_);
     subscriptionIdCounter=0;
     receiptId=0;
     genreSubIMmap = new std::map<std::string,int>;
 
 };
 std::string User::getName(){
-    return name;
+    return name_;
 }
 bool User::isDefault(){
     return Default;
@@ -53,3 +53,8 @@ int User::getAndIncrementreceiptId(){
 int User::getSubIdByGenre(std::string genre){
     return genreSubIMmap->find(genre)->second;
 }
+
+void User::setName(std::string name){
+    name_ = name;
+}
+

@@ -19,7 +19,7 @@ std::string StompEncoderDecoder::decodeNextByte(char byte){}
 std::string StompEncoderDecoder::toString(Message m) {
     std::string toReturn= "";
     if (m.getType() == add ){
-        toReturn = "SEND\ndestination:" + m.getDestination() +'\n' + '\n' + m.getUserName()+" has added the book "+ m.getBookName() + '\n' + '\0';
+        toReturn = "SEND\ndestination:" + m.getDestination() +'\n' + '\n' + m.getUser()->getName()+" has added the book "+ m.getBookName() + '\n' + '\0';
     }
     if (m.getType() == join){
 
