@@ -14,7 +14,14 @@ std::string StompEncoderDecoder::encode(Message msg){
 
 }
 std::string StompEncoderDecoder::decodeNextByte(char byte){
-    
+    if(byte=='\0') {
+        std::string toReturn="";
+        for (std::vector<char>::iterator it = bytes.begin() ; it != bytes.end(); ++it){
+          //  toReturn+=(char) it;
+    }
+    bytes.push_back(byte);
+    return "";  //not message yet
+}
 }
 
 
@@ -85,10 +92,47 @@ Message StompEncoderDecoder::parseMsgFromKeyboard(std::string msg) {
     return parsedMsg;
 
 }
-//Message StompEncoderDecoder::parseMsgFromSocket(char nextbyte){
-//    if (nextbyte == '\n') {
-//         Message parsedMsg(user_);
-//        // addFirst(
-//    }
-//
-//}
+Message StompEncoderDecoder::parseMsgFromSocket(std::string msg){
+    int index =0;
+    std::string line="";
+    bool endline=false;
+    bool emptyline=false;
+    Message parsedMsg(user_) ;
+    for(auto x:msg){
+        if(index==0){
+            if (x == '\n') {
+                parsedMsg.addFirst(line);
+                line="";
+                index++;
+            }
+            else{
+                line=line+x;
+            }
+        }
+        if (emptyline){
+            index++;
+        }
+        if (index==1){
+            if(endline){ //checks if it is an empty line and skip it
+                if (x=='\n'){
+                 index++;
+                 endline=false;
+                 continue;
+                }
+                endline=false;
+            }
+            if (x=='\n'){
+                parsedMsg.addNext(line,4);
+                line="";
+                endline=true;
+            }
+            line=line+x;
+        }
+        if (index==2){
+            if (x=='\n'){
+                parsedMsg.addNext(line,5);
+            }
+        }
+    }
+    return parsedMsg;
+}

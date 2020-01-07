@@ -82,7 +82,20 @@ void Message::addNext(std::string msg,int index){
         }
 
     }
+    ///////load header////////
+    if(index==4){
+        int pos = msg.find(":");
+        std::pair<std::string,std::string> toPush;
+        toPush.first=msg.substr(0,pos);
+        toPush.second=msg.substr(pos+1);
+        header.push_back(toPush);
+    }
+    ///////////set body///////
+    if(index==5){
+        body=msg;
+    }
 }
+
 
 MessageType Message::getType(){
     return type;
@@ -118,6 +131,9 @@ std::string Message::getSubscriptionId(){
 }
 std::string Message::getreciptid(){
     return reciptid;
+}
+void Message::setBody(std::string body_){
+    body=body_;
 }
 
 

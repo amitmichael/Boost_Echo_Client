@@ -13,7 +13,8 @@ class StompEncoderDecoder {
 
 private:
     User* user_;
-
+    std::vector<std::byte> bytes = new vector<>; //start with 1k
+    int len = 0;
 
 public:
     StompEncoderDecoder(User* user);
@@ -22,6 +23,10 @@ public:
     std::string decodeNextByte(char byte);
     std::string toString(Message m);
     Message parseMsgFromKeyboard(std::string basicString);
+
+    Message parseMsgFromSocket(char nextbyte);
+
+    Message parseMsgFromSocket(std::string msg);
 };
 
 
