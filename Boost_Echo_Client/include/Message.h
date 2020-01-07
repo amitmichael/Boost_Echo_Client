@@ -16,7 +16,8 @@ enum MessageType {login,
     exitt, //double t
     returnn, //double n
     status,
-    logout
+    logout,
+    clear
     };
 
 class Message {
@@ -37,6 +38,7 @@ public:
     void execute();
     std::string getSubscriptionId();
     std::string getreciptid();
+    void clear();
 
 
 

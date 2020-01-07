@@ -15,7 +15,7 @@ class ClientSocket {
 
 
 public:
-    ClientSocket(ConnectionHandler* handler,std::string host, int port, bool shouldTerminate,MsgInfo* info);
+    ClientSocket(ConnectionHandler* handler,std::string host, int port, bool* shouldTerminate,MsgInfo* info,bool* connected);
     void connect();
     void run();
 
@@ -23,8 +23,8 @@ private:
     ConnectionHandler* handler_;
     std::string host_;
     int port_;
-    bool& shouldTerminate_;
-    bool connected_;
+    bool* shouldTerminate_;
+    bool* connected_;
     MsgInfo* info_;
 
 

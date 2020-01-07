@@ -41,6 +41,9 @@ std::string StompEncoderDecoder::toString(Message m) {
     if (m.getType() == status){
         toReturn = "SEND\ndestination:" + m.getDestination() +'\n' + '\n'  + "book status"  + '\n' + '\0';
     }
+    if (m.getType() == logout){
+        toReturn = "DISCONNECT\nreceipt:" + m.getreciptid() + '\n'  + '\n' + '\0';
+    }
 
 
     return toReturn;
@@ -71,7 +74,12 @@ Message StompEncoderDecoder::parseMsgFromKeyboard(std::string msg) {
             word = word+x;
         }
     }
-    parsedMsg.addNext(word,index);
+    if (index==0){
+        parsedMsg.addFirst(word);
+    }
+    else {
+        parsedMsg.addNext(word, index);
+    }
     return parsedMsg;
 
 }

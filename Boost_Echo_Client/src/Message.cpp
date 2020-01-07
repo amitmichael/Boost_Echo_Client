@@ -30,11 +30,25 @@ void Message::execute(){
            subscriptionId = std::to_string(user_->getSubIdByGenre(destination));
            user_->removeFromenreSubIdmap(destination);
        }
+
 }
 
 void Message::addFirst(std::string msg){
     type = mapMessageType.at(msg);
     command = msg;
+}
+
+void  Message::clear() {
+    type = MessageType::clear;
+    destination="";
+    command="";
+    bookName="";
+    userName="";
+    host="";
+    port=0;
+    password="";
+    subscriptionId="";
+    reciptid="";
 }
 
 void Message::addNext(std::string msg,int index){
@@ -108,14 +122,16 @@ std::string Message::getreciptid(){
 
 
 void Message::loadMessageTypeMap(){
+    mapMessageType.insert(std::make_pair("logout", MessageType::logout));
     mapMessageType.insert(std::make_pair("join", MessageType::join));
     mapMessageType.insert(std::make_pair("status", MessageType::status));
     mapMessageType.insert(std::make_pair("add", MessageType::add));
     mapMessageType.insert(std::make_pair("borrow", MessageType::borrow));
     mapMessageType.insert(std::make_pair("exit", MessageType::exitt));
     mapMessageType.insert(std::make_pair("login", MessageType::login));
-    mapMessageType.insert(std::make_pair("logout", MessageType::logout));
     mapMessageType.insert(std::make_pair("return", MessageType::returnn));
+    mapMessageType.insert(std::make_pair("clear", MessageType::clear));
+
 
 
 

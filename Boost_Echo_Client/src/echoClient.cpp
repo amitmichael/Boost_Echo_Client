@@ -18,9 +18,10 @@ int main (int argc, char *argv[]) {
     
     ConnectionHandler*  connectionHandler = new ConnectionHandler(host, port);
     MsgInfo* info = new MsgInfo();
-    bool shouldTerminate = false;
-    ClientKeyboard clientKeyboard(connectionHandler,host,port,shouldTerminate,info);
-    ClientSocket clientSocket(connectionHandler,host,port,shouldTerminate,info);
+    bool* shouldTerminate = new bool(false);
+    bool* connected = new bool(false);
+    ClientKeyboard clientKeyboard(connectionHandler,host,port,shouldTerminate,info,connected);
+    ClientSocket clientSocket(connectionHandler,host,port,shouldTerminate,info,connected);
     clientSocket.connect();
     std::thread threadKeyboard(&ClientKeyboard::run,&clientKeyboard); // run keyboard thread
     std::thread threadSocket(&ClientSocket::run,&clientSocket); // run socket thread
