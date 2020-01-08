@@ -147,6 +147,11 @@ void Message::loadMessageTypeMap(){
     mapMessageType.insert(std::make_pair("login", MessageType::login));
     mapMessageType.insert(std::make_pair("return", MessageType::returnn));
     mapMessageType.insert(std::make_pair("clear", MessageType::clear));
+    mapMessageType.insert(std::make_pair("CONNECTED", MessageType::connected));
+    mapMessageType.insert(std::make_pair("RECEPIT", MessageType::recepit));
+    mapMessageType.insert(std::make_pair("MESSAGE", MessageType::message));
+    mapMessageType.insert(std::make_pair("ERROR", MessageType::error));
+
 
 
 

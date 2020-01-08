@@ -25,20 +25,20 @@ void ClientSocket::connect() {
 void ClientSocket::run() {
     User *user = new User();
     StompEncoderDecoder enddec(user);
+    std::string decoded="";
     while (!*shouldTerminate_) {
         const int bufsize = 1024;
-        char buf[bufsize];
-        std::cin.getline(buf, bufsize);
-        std::string line(buf);
-        std::string toAdd= (String)enddec.decodeNextByte((byte) read);
-        if (toAdd!=null) {
-            nextMessage.addNextInput(toAdd);
-        }
-        Message msg = enddec.parseMsgFromSocket();
+        char* buf[bufsize];
+        std::string line;
+        while (handler_->getBytes(buf,bufsize))) {
+            getline(buf, bufsize);
+            // check for invalid utf-8 (for a simple yes/no check, there is also utf8::is_valid function)
+            string::iterator end_it = utf8::find_invalid(line.begin(), line.end());
+            decoded=enddec.decodeNextByte((char) end_it);
+            }
+        Message msg = enddec.parseMsgFromSocket(decoded);
         msg.execute();
-        std::string decoded = enddec.encode(msg);
         msg.clear();
         std::cout << decoded << std::endl;
-        handler_->sendBytes(encoded.c_str(), encoded.length());
     }
 }

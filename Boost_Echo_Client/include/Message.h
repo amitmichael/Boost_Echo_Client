@@ -17,7 +17,11 @@ enum MessageType {login,
     returnn, //double n
     status,
     logout,
-    clear
+    clear,
+    connected,
+    recepit,
+    message,
+    error
     };
 
 class Message {

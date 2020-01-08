@@ -15,9 +15,11 @@ std::string StompEncoderDecoder::encode(Message msg){
 }
 std::string StompEncoderDecoder::decodeNextByte(char byte){
     if(byte=='\0') {
-        std::string toReturn="";
-        for (std::vector<char>::iterator it = bytes.begin() ; it != bytes.end(); ++it){
-          //  toReturn+=(char) it;
+        std::string toReturn = "";
+        for (std::vector<char>::iterator it = bytes.begin(); it != bytes.end(); ++it) {
+            toReturn(byte.begin,bytes.end);
+        }
+        return toReturn;
     }
     bytes.push_back(byte);
     return "";  //not message yet
