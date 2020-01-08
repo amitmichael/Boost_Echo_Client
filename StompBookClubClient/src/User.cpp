@@ -38,6 +38,8 @@ bool User::isDefault(){
     return Default;
 }
 
+
+
 Inventory* User::getInv(){
     return inventory_;
 }

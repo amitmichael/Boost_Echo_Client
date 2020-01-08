@@ -33,11 +33,10 @@ private:
     Inventory* inventory_;
     int subscriptionIdCounter;
     int receiptId;
+
     bool* connected;
     bool* shouldTerminate_;
     std::map<std::string,int> genreSubIMmap;
-
-
 
 };
 

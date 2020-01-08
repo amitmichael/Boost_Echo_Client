@@ -23,6 +23,7 @@ int main (int argc, char *argv[]) {
    // short port = atoi(argv[2]);
 
 
+
     ConnectionHandler*  connectionHandler;// = new ConnectionHandler(host, port);
     User *user = new User(new bool(false) , new bool(false));
     MsgInfo* info = new MsgInfo();
