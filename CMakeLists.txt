@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.15)
-project(Boost_Echo_Client)
+project(StompBookClubClient)
 
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -pthread")
 
@@ -15,11 +15,13 @@ if(Boost_FOUND)
 
 endif()
 
-add_executable(Boost_Echo_Client Boost_Echo_Client/src/ConnectionHandler.cpp Boost_Echo_Client/include/ConnectionHandler.h Boost_Echo_Client/src/echoClient.cpp Boost_Echo_Client/src/ClientKeyboard.cpp Boost_Echo_Client/include/ClientKeyboard.h Boost_Echo_Client/src/ClientSocket.cpp Boost_Echo_Client/include/ClientSocket.h Boost_Echo_Client/src/Frame.cpp Boost_Echo_Client/include/Frame.h Boost_Echo_Client/src/Inventory.cpp Boost_Echo_Client/include/Inventory.h Boost_Echo_Client/src/Book.cpp Boost_Echo_Client/include/Book.h Boost_Echo_Client/src/StompEncoderDecoder.cpp Boost_Echo_Client/include/StompEncoderDecoder.h Boost_Echo_Client/src/Message.cpp Boost_Echo_Client/include/Message.h Boost_Echo_Client/src/User.cpp Boost_Echo_Client/include/User.h Boost_Echo_Client/src/MsgInfo.cpp Boost_Echo_Client/include/MsgInfo.h)
+add_executable(StompBookClubClient StompBookClubClient/src/ConnectionHandler.cpp StompBookClubClient/include/ConnectionHandler.h  StompBookClubClient/src/ClientKeyboard.cpp StompBookClubClient/include/ClientKeyboard.h StompBookClubClient/src/ClientSocket.cpp StompBookClubClient/include/ClientSocket.h StompBookClubClient/src/Frame.cpp StompBookClubClient/include/Frame.h StompBookClubClient/src/Inventory.cpp StompBookClubClient/include/Inventory.h StompBookClubClient/src/Book.cpp StompBookClubClient/include/Book.h StompBookClubClient/src/StompEncoderDecoder.cpp StompBookClubClient/include/StompEncoderDecoder.h StompBookClubClient/src/Message.cpp StompBookClubClient/include/Message.h StompBookClubClient/src/User.cpp StompBookClubClient/include/User.h StompBookClubClient/src/MsgInfo.cpp StompBookClubClient/include/MsgInfo.h StompBookClubClient/src/StompBookClubClient.cpp)
 
 if(Boost_FOUND)
 
-    target_link_libraries(Boost_Echo_Client ${Boost_LIBRARIES})
+    target_link_libraries(StompBookClubClient ${Boost_LIBRARIES})
 
 endif()
+
+
 
