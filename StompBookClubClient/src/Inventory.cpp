@@ -7,12 +7,20 @@
 
 
 Inventory::~Inventory(){
-//    for (auto it = books_.begin(); it!=books_.end();it++){ //delete all books
-//        delete(it->second);
-//    }
-//    for (auto it1 = borrowedBooks_.begin(); it1!=borrowedBooks_.end();it1++){ // delete all borrowed books
-//        delete(it1->second);
-//    }
+    for (auto it = books_.begin(); it!=books_.end();it++){ //delete all books
+        std::vector<Book*>* curr = it->second;
+        for (auto itt = curr->begin(); itt!= curr->end();itt++) {
+            delete (*itt);// delete all books in the vector
+        }
+        delete (curr);
+    }
+    for (auto it1 = borrowedBooks_.begin(); it1!=borrowedBooks_.end();it1++){ // delete all borrowed books
+        std::vector<Book*>* curr = it1->second;
+        for (auto itt = curr->begin(); itt!= curr->end();itt++) {
+            delete (*itt);// delete all books in the vector
+        }
+        delete (curr);
+    }
 }
 
 

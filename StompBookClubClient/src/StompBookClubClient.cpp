@@ -17,17 +17,25 @@ int main (int argc, char *argv[]) {
     short port = atoi(argv[2]);
     
     ConnectionHandler*  connectionHandler = new ConnectionHandler(host, port);
+    User *user = new User();
     MsgInfo* info = new MsgInfo();
     bool* shouldTerminate = new bool(false);
-    bool* connected = new bool(false);
-    ClientKeyboard clientKeyboard(connectionHandler,host,port,shouldTerminate,info,connected);
-    ClientSocket clientSocket(connectionHandler,host,port,shouldTerminate,info,connected);
+    bool* connected = new bool(true);
+    ClientKeyboard clientKeyboard(connectionHandler,host,port,shouldTerminate,info,connected,user);
+    ClientSocket clientSocket(connectionHandler,host,port,shouldTerminate,info,connected,user);
     clientSocket.connect();
     std::thread threadKeyboard(&ClientKeyboard::run,&clientKeyboard); // run keyboard thread
     std::thread threadSocket(&ClientSocket::run,&clientSocket); // run socket thread
     threadKeyboard.join();
     threadSocket.join();
     connectionHandler->close();
+
+    /// delete all objects ///
+    delete(info);
+    delete(shouldTerminate);
+    delete(connected);
+    delete(connectionHandler);
+    delete(user);
 
     return 0;
 }

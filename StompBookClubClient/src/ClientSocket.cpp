@@ -6,8 +6,7 @@
 #include "../include/ConnectionHandler.h"
 
 
-ClientSocket::ClientSocket(ConnectionHandler* handler,std::string host, int port,bool* shouldTerminate,MsgInfo* info,
-                           bool* connected) : handler_(handler),host_(host),port_(port),shouldTerminate_(shouldTerminate),info_(info),connected_(connected){};
+ClientSocket::ClientSocket(ConnectionHandler* handler,std::string host, int port, bool* shouldTerminate,MsgInfo* info,bool* connected,User* user): handler_(handler),host_(host),port_(port),shouldTerminate_(shouldTerminate),info_(info),connected_(connected),user_(user){};
 
 void ClientSocket::connect() {
 
@@ -23,6 +22,8 @@ void ClientSocket::connect() {
 
 void ClientSocket::run() {
     while (!*shouldTerminate_){
-
+//        if (!*connected_){
+//            *shouldTerminate_=true;
+//        }
     }
 }

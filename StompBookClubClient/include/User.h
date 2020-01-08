@@ -31,7 +31,7 @@ private:
     Inventory* inventory_;
     int subscriptionIdCounter;
     int receiptId;
-    std::map<std::string,int>* genreSubIMmap;
+    std::map<std::string,int> genreSubIMmap;
 
 
 

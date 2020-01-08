@@ -18,10 +18,10 @@ private:
 public:
     StompEncoderDecoder(User* user);
     ~StompEncoderDecoder();
-    std::string encode(Message msg);
+    std::string encode(Message* msg);
     std::string decodeNextByte(char byte);
-    std::string toString(Message m);
-    Message parseMsgFromKeyboard(std::string basicString);
+    std::string toString(Message* m);
+    Message* parseMsgFromKeyboard(std::string basicString);
 };
 
 
