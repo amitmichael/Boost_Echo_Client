@@ -14,7 +14,7 @@ class ClientKeyboard {
 
 public:
 
-    ClientKeyboard(ConnectionHandler* handler,std::string host, int port, bool* shouldTerminate,MsgInfo* info,bool* connected,User* user);
+    ClientKeyboard(ConnectionHandler* handler, bool* shouldTerminate,MsgInfo* info,User* user);
 
     void run();
 
@@ -24,7 +24,6 @@ private:
     int port_;
     bool* shouldTerminate_;
     MsgInfo* info_;
-    bool* connected_;
     User* user_;
 
 

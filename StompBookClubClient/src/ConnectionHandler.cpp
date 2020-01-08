@@ -18,6 +18,8 @@ ConnectionHandler::ConnectionHandler(string host, short port): host_(host), port
 ConnectionHandler::~ConnectionHandler() {
     close();
 }
+
+
  
 bool ConnectionHandler::connect() {
     std::cout << "Starting connect to " 

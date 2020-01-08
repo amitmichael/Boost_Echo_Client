@@ -7,13 +7,14 @@
 
 User::~User() {
     delete(inventory_);
+    delete(connected);
 }
 
 std::string User::getName(){
     return name_;
 }
 
-User::User():genreSubIMmap(){
+User::User(bool* connected):genreSubIMmap(),connected(connected){
     Default=true;
     name_ = "defaultUser";
     inventory_ = new Inventory(name_);
@@ -21,6 +22,11 @@ User::User():genreSubIMmap(){
     receiptId=0;
 
 };
+
+bool* User::isConnected(){
+    return connected;
+}
+
 
 bool User::isDefault(){
     return Default;

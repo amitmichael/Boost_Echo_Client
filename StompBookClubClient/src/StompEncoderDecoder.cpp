@@ -59,9 +59,6 @@ std::string StompEncoderDecoder::toString(Message* m) {
 }
 
 
-
-
-
 Message* StompEncoderDecoder::parseMsgFromKeyboard(std::string msg) {
 
     std::string word = "";
@@ -138,4 +135,3 @@ Message* StompEncoderDecoder::parseMsgFromSocket(std::string msg){
     }
     return parsedMsg;
 }
-
