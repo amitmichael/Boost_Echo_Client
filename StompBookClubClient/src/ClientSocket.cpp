@@ -8,7 +8,7 @@
 
 
 
-ClientSocket::ClientSocket(ConnectionHandler* handler,std::string host, int port, bool* shouldTerminate,MsgInfo* info,bool* connected,User* user): handler_(handler),host_(host),port_(port),shouldTerminate_(shouldTerminate),info_(info),connected_(connected),user_(user){};
+ClientSocket::ClientSocket(ConnectionHandler* handler,MsgInfo* info,User* user): handler_(handler),info_(info),user_(user){};
 
 void ClientSocket::connect() {
 
@@ -23,9 +23,8 @@ void ClientSocket::connect() {
 }
 
 void ClientSocket::run() {
-    User *user = new User();
-    StompEncoderDecoder enddec(user);
-    while (!*shouldTerminate_) {
+    StompEncoderDecoder enddec(user_);
+    while (!*user_->shouldTerminate() &  *user_->isConnected()) {
         const int bufsize = 1024;
         char buf[bufsize];
         handler_->getBytes(buf,bufsize);

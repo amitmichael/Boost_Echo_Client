@@ -17,8 +17,15 @@ void Message::execute(){
     reciptid = std::to_string(receiptid);
 
 
-       if (type==login){
+       if (type == logout){
+           if (!*user_->isConnected()){
+               *user_->shouldTerminate() = true;
+           }
+       }
+
+        if (type==login){
            user_->setName(userName);
+           *user_->isConnected() = true;
        }
         if(type== add){
             Inventory* inv =  user_->getInv();
@@ -42,18 +49,7 @@ void Message::addFirst(std::string msg){
     command = msg;
 }
 
-void  Message::clear() {
-    type = MessageType::clear;
-    destination="";
-    command="";
-    bookName="";
-    userName="";
-    host="";
-    port=0;
-    password="";
-    subscriptionId="";
-    reciptid="";
-}
+
 
 void Message::addNext(std::string msg,int index){
     ////// first add////////////////////////////
@@ -99,7 +95,6 @@ void Message::addNext(std::string msg,int index){
         body=msg;
     }
 }
-
 
 
 
@@ -157,9 +152,6 @@ void Message::loadMessageTypeMap(){
     mapMessageType.insert(std::make_pair("exit", MessageType::exitt));
     mapMessageType.insert(std::make_pair("login", MessageType::login));
     mapMessageType.insert(std::make_pair("return", MessageType::returnn));
-    mapMessageType.insert(std::make_pair("clear", MessageType::clear));
-
-
 
 
 }
