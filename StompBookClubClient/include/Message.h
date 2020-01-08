@@ -39,12 +39,18 @@ public:
     std::string getSubscriptionId();
     std::string getreciptid();
     void clear();
+
     User* getUser();
+
 
 
 
 private:
     MessageType type;
+
+    std::vector<std::pair<std::string,std::string>> header;
+    std::string body;
+
     std::map<std::string, MessageType> mapMessageType;
     std::string destination;
     std::string command;
@@ -57,6 +63,9 @@ private:
     std::string subscriptionId;
     std::string reciptid;
 
+
+
+    void setBody(std::string body_);
 
 };
 

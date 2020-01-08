@@ -4,6 +4,8 @@
 
 #include "../include/ClientSocket.h"
 #include "../include/ConnectionHandler.h"
+#include "../include/StompEncoderDecoder.h"
+
 
 
 ClientSocket::ClientSocket(ConnectionHandler* handler,std::string host, int port, bool* shouldTerminate,MsgInfo* info,bool* connected,User* user): handler_(handler),host_(host),port_(port),shouldTerminate_(shouldTerminate),info_(info),connected_(connected),user_(user){};
@@ -21,9 +23,22 @@ void ClientSocket::connect() {
 }
 
 void ClientSocket::run() {
-    while (!*shouldTerminate_){
-//        if (!*connected_){
-//            *shouldTerminate_=true;
-//        }
+    User *user = new User();
+    StompEncoderDecoder enddec(user);
+    while (!*shouldTerminate_) {
+        const int bufsize = 1024;
+        char buf[bufsize];
+        handler_->getBytes(buf,bufsize);
+        std::string toAdd= (std::string)enddec.decodeNextByte(buf[0]);
+        if (toAdd.size() > 0) {
+         //   nextMessage.addNextInput(toAdd); ??
+        }
+        Message msg = enddec.parseMsgFromSocket(toAdd);
+        msg.execute();
+        std::string decoded = enddec.encode(msg);
+        msg.clear();
+        std::cout << decoded << std::endl;
+        handler_->sendBytes(decoded.c_str(), decoded.length());
+
     }
 }

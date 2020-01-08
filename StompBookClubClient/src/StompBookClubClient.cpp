@@ -1,6 +1,8 @@
+
 //
 // Created by shachafk@wincs.cs.bgu.ac.il on 08/01/2020.
 //
+
 
 #include <stdlib.h>
 #include "../include/ConnectionHandler.h"
@@ -20,6 +22,7 @@ int main (int argc, char *argv[]) {
     std::string host = argv[1];
     short port = atoi(argv[2]);
 
+
     ConnectionHandler*  connectionHandler = new ConnectionHandler(host, port);
     User *user = new User();
     MsgInfo* info = new MsgInfo();
@@ -33,6 +36,7 @@ int main (int argc, char *argv[]) {
     threadKeyboard.join();
     threadSocket.join();
     connectionHandler->close();
+
 
     /// delete all objects ///
     delete(info);

@@ -23,14 +23,15 @@ public:
     void addToGenreSubIdmap(std::string genre ,int id);
     void removeFromenreSubIdmap(std::string genre);
     int getSubIdByGenre(std::string genre);
-    void setName(std::string name);
-
+  void setName(std::string name);
 private:
+
     std::string name_;
     bool Default ;
     Inventory* inventory_;
     int subscriptionIdCounter;
     int receiptId;
+
     std::map<std::string,int> genreSubIMmap;
 
 

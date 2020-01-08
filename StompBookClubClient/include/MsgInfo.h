@@ -14,6 +14,11 @@ public:
 
     MsgInfo();
     ~MsgInfo();
+
+
+private:
+    std::map<int ,Message>* receiptPerMsgMap;
+
     void addToreceiptPerMsgMap(int id, Message* msg);
     Message* getMsgByReceiptId(int id);
 

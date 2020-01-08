@@ -8,13 +8,22 @@
 
 StompEncoderDecoder::StompEncoderDecoder(User* user):user_(user){}
 StompEncoderDecoder::~StompEncoderDecoder(){}
+
 std::string StompEncoderDecoder::encode(Message* msg){
 
     return toString(msg);
 
 }
-std::string StompEncoderDecoder::decodeNextByte(char byte){}
-
+std::string StompEncoderDecoder::decodeNextByte(char byte){
+    if(byte=='\0') {
+        std::string toReturn="";
+        for (auto it = bytes->begin() ; it != bytes->end(); ++it){
+          //  toReturn+=(char) it;
+    }
+    bytes->push_back(byte);
+    return "";  //not message yet
+}
+}
 
 std::string StompEncoderDecoder::toString(Message* m) {
     std::string toReturn= "";
@@ -52,6 +61,7 @@ std::string StompEncoderDecoder::toString(Message* m) {
 
 
 
+
 Message* StompEncoderDecoder::parseMsgFromKeyboard(std::string msg) {
 
     std::string word = "";
@@ -65,6 +75,7 @@ Message* StompEncoderDecoder::parseMsgFromKeyboard(std::string msg) {
                 index++;
             }
             else {
+
                 parsedMsg->addNext(word,index);
                 word = "";
                 index++;
@@ -83,3 +94,48 @@ Message* StompEncoderDecoder::parseMsgFromKeyboard(std::string msg) {
     return parsedMsg;
 
 }
+Message StompEncoderDecoder::parseMsgFromSocket(std::string msg){
+    int index =0;
+    std::string line="";
+    bool endline=false;
+    bool emptyline=false;
+    Message parsedMsg(user_) ;
+    for(auto x:msg){
+        if(index==0){
+            if (x == '\n') {
+                parsedMsg.addFirst(line);
+                line="";
+                index++;
+            }
+            else{
+                line=line+x;
+            }
+        }
+        if (emptyline){
+            index++;
+        }
+        if (index==1){
+            if(endline){ //checks if it is an empty line and skip it
+                if (x=='\n'){
+                 index++;
+                 endline=false;
+                 continue;
+                }
+                endline=false;
+            }
+            if (x=='\n'){
+                parsedMsg.addNext(line,4);
+                line="";
+                endline=true;
+            }
+            line=line+x;
+        }
+        if (index==2){
+            if (x=='\n'){
+                parsedMsg.addNext(line,5);
+            }
+        }
+    }
+    return parsedMsg;
+}
+

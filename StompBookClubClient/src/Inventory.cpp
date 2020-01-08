@@ -7,6 +7,7 @@
 
 
 Inventory::~Inventory(){
+
     for (auto it = books_.begin(); it!=books_.end();it++){ //delete all books
         std::vector<Book*>* curr = it->second;
         for (auto itt = curr->begin(); itt!= curr->end();itt++) {

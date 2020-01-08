@@ -5,8 +5,10 @@
 #include "../include/MsgInfo.h"
 
 
-MsgInfo::MsgInfo():receiptPerMsgMap(){
+MsgInfo::MsgInfo(){
+    receiptPerMsgMap = new std::map<int,Message>;
 }
+
 
 MsgInfo::~MsgInfo(){
     for (auto it = receiptPerMsgMap.begin();it!=receiptPerMsgMap.end();it++ ){
