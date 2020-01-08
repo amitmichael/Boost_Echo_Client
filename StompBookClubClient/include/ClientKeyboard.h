@@ -6,6 +6,7 @@
 #define BOOST_ECHO_CLIENT_CLIENTKEYBOARD_H
 
 
+#include <mutex>
 #include "../include/ConnectionHandler.h"
 #include "../include/MsgInfo.h"
 
@@ -14,7 +15,7 @@ class ClientKeyboard {
 
 public:
 
-    ClientKeyboard(ConnectionHandler* handler,MsgInfo* info,User* user);
+    ClientKeyboard(ConnectionHandler* handler,MsgInfo* info,User* user,std::mutex & _mutex);
 
     void run();
 
@@ -24,6 +25,7 @@ private:
     int port_;
     MsgInfo* info_;
     User* user_;
+    std::mutex & _mutex;
 
 
 

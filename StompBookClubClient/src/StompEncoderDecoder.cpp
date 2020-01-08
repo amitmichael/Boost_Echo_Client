@@ -90,6 +90,9 @@ Message* StompEncoderDecoder::parseMsgFromKeyboard(std::string msg) {
 
 }
 Message* StompEncoderDecoder::parseMsgFromSocket(std::string msg){
+    if (msg.size()==0){
+        return nullptr;
+    }
     int index =0;
     std::string line="";
     bool endline=false;

@@ -51,7 +51,7 @@ bool ConnectionHandler::getBytes(char bytes[], unsigned int bytesToRead) {
         std::cerr << "recv failed (Error: " << e.what() << ')' << std::endl;
         return false;
     }
-    return true;
+    return tmp>0;
 }
 
 bool ConnectionHandler::sendBytes(const char bytes[], int bytesToWrite) {
