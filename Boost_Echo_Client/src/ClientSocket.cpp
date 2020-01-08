@@ -28,17 +28,16 @@ void ClientSocket::run() {
     while (!*shouldTerminate_) {
         const int bufsize = 1024;
         char buf[bufsize];
-        std::cin.getline(buf, bufsize);
-        std::string line(buf);
-        std::string toAdd= (String)enddec.decodeNextByte((byte) read);
-        if (toAdd!=null) {
-            nextMessage.addNextInput(toAdd);
+        handler_->getBytes(buf,bufsize);
+        std::string toAdd= (std::string)enddec.decodeNextByte(buf[0]);
+        if (toAdd.size() > 0) {
+         //   nextMessage.addNextInput(toAdd); ??
         }
-        Message msg = enddec.parseMsgFromSocket();
+        Message msg = enddec.parseMsgFromSocket(toAdd);
         msg.execute();
         std::string decoded = enddec.encode(msg);
         msg.clear();
         std::cout << decoded << std::endl;
-        handler_->sendBytes(encoded.c_str(), encoded.length());
+        handler_->sendBytes(decoded.c_str(), decoded.length());
     }
 }

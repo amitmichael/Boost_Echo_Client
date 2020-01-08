@@ -16,10 +16,10 @@ std::string StompEncoderDecoder::encode(Message msg){
 std::string StompEncoderDecoder::decodeNextByte(char byte){
     if(byte=='\0') {
         std::string toReturn="";
-        for (std::vector<char>::iterator it = bytes.begin() ; it != bytes.end(); ++it){
+        for (auto it = bytes->begin() ; it != bytes->end(); ++it){
           //  toReturn+=(char) it;
     }
-    bytes.push_back(byte);
+    bytes->push_back(byte);
     return "";  //not message yet
 }
 }
