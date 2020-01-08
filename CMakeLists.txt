@@ -15,7 +15,9 @@ if(Boost_FOUND)
 
 endif()
 
-add_executable(StompBookClubClient StompBookClubClient/src/ConnectionHandler.cpp StompBookClubClient/include/ConnectionHandler.h StompBookClubClient/src/StompBookClubClient.cpp StompBookClubClient/src/ClientKeyboard.cpp StompBookClubClient/include/ClientKeyboard.h StompBookClubClient/src/ClientSocket.cpp StompBookClubClient/include/ClientSocket.h StompBookClubClient/src/Frame.cpp StompBookClubClient/include/Frame.h StompBookClubClient/src/Inventory.cpp StompBookClubClient/include/Inventory.h StompBookClubClient/src/Book.cpp StompBookClubClient/include/Book.h StompBookClubClient/src/StompEncoderDecoder.cpp StompBookClubClient/include/StompEncoderDecoder.h StompBookClubClient/src/Message.cpp StompBookClubClient/include/Message.h StompBookClubClient/src/User.cpp StompBookClubClient/include/User.h StompBookClubClient/src/MsgInfo.cpp StompBookClubClient/include/MsgInfo.h)
+
+add_executable(StompBookClubClient StompBookClubClient/src/ConnectionHandler.cpp StompBookClubClient/include/ConnectionHandler.h  StompBookClubClient/src/ClientKeyboard.cpp StompBookClubClient/include/ClientKeyboard.h StompBookClubClient/src/ClientSocket.cpp StompBookClubClient/include/ClientSocket.h StompBookClubClient/src/Frame.cpp StompBookClubClient/include/Frame.h StompBookClubClient/src/Inventory.cpp StompBookClubClient/include/Inventory.h StompBookClubClient/src/Book.cpp StompBookClubClient/include/Book.h StompBookClubClient/src/StompEncoderDecoder.cpp StompBookClubClient/include/StompEncoderDecoder.h StompBookClubClient/src/Message.cpp StompBookClubClient/include/Message.h StompBookClubClient/src/User.cpp StompBookClubClient/include/User.h StompBookClubClient/src/MsgInfo.cpp StompBookClubClient/include/MsgInfo.h StompBookClubClient/src/StompBookClubClient.cpp)
+
 
 if(Boost_FOUND)
 

@@ -9,13 +9,17 @@
 #include "ConnectionHandler.h"
 #include "../include/MsgInfo.h"
 
+#include "../include/User.h"
+
 
 class ClientSocket {
 
 
 
 public:
-    ClientSocket(ConnectionHandler* handler,std::string host, int port, bool* shouldTerminate,MsgInfo* info,bool* connected);
+
+    ClientSocket(ConnectionHandler* handler,std::string host, int port, bool* shouldTerminate,MsgInfo* info,bool* connected,User* user);
+
     void connect();
     void run();
 
@@ -26,6 +30,9 @@ private:
     bool* shouldTerminate_;
     bool* connected_;
     MsgInfo* info_;
+
+    User* user_;
+
 
 
 };

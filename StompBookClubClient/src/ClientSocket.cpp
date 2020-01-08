@@ -7,8 +7,8 @@
 #include "../include/StompEncoderDecoder.h"
 
 
-ClientSocket::ClientSocket(ConnectionHandler* handler,std::string host, int port,bool* shouldTerminate,MsgInfo* info,
-                           bool* connected) : handler_(handler),host_(host),port_(port),shouldTerminate_(shouldTerminate),info_(info),connected_(connected){};
+
+ClientSocket::ClientSocket(ConnectionHandler* handler,std::string host, int port, bool* shouldTerminate,MsgInfo* info,bool* connected,User* user): handler_(handler),host_(host),port_(port),shouldTerminate_(shouldTerminate),info_(info),connected_(connected),user_(user){};
 
 void ClientSocket::connect() {
 
@@ -39,5 +39,6 @@ void ClientSocket::run() {
         msg.clear();
         std::cout << decoded << std::endl;
         handler_->sendBytes(decoded.c_str(), decoded.length());
+
     }
 }

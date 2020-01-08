@@ -22,6 +22,18 @@ User::User(){
 std::string User::getName(){
     return name;
 }
+
+User::User():genreSubIMmap(){
+    Default=true;
+    name_ = "defaultUser";
+    inventory_ = new Inventory(name_);
+    subscriptionIdCounter=0;
+    receiptId=0;
+
+};
+std::string User::getName(){
+    return name_;
+}
 bool User::isDefault(){
     return Default;
 }
@@ -36,11 +48,12 @@ int User::getAndIncrementSubscriptionId(){
 }
 
 void User::addToGenreSubIdmap(std::string genre ,int id){
-    genreSubIMmap->insert(std::make_pair(genre,id));
+    genreSubIMmap.insert(std::make_pair(genre,id));
 }
 
+
 void User::removeFromenreSubIdmap(std::string genre){
-    genreSubIMmap->erase(genre);
+    genreSubIMmap.erase(genre);
 }
 
 
@@ -51,5 +64,11 @@ int User::getAndIncrementreceiptId(){
 }
 
 int User::getSubIdByGenre(std::string genre){
-    return genreSubIMmap->find(genre)->second;
+
+    return genreSubIMmap.find(genre)->second;
 }
+
+void User::setName(std::string name){
+    name_ = name;
+}
+

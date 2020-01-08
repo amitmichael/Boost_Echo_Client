@@ -14,12 +14,17 @@ public:
 
     MsgInfo();
     ~MsgInfo();
-    void addToreceiptPerMsgMap(int id, Message msg);
-    Message getMsgByReceiptId(int id);
 
 
 private:
     std::map<int ,Message>* receiptPerMsgMap;
+
+    void addToreceiptPerMsgMap(int id, Message* msg);
+    Message* getMsgByReceiptId(int id);
+
+
+private:
+    std::map<int ,Message*> receiptPerMsgMap;
 };
 
 
