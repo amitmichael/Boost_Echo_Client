@@ -8,20 +8,20 @@
 #include "../include/MsgInfo.h"
 
 
-ClientKeyboard::ClientKeyboard(ConnectionHandler* handler,bool* shouldTerminate,MsgInfo* info,User* user) : handler_(handler),shouldTerminate_(shouldTerminate),info_(info),user_(user){};
+ClientKeyboard::ClientKeyboard(ConnectionHandler* handler,MsgInfo* info,User* user) : handler_(handler),info_(info),user_(user){};
 
 
 
 void ClientKeyboard::run() {
     StompEncoderDecoder enddec(user_);
-    while (!*shouldTerminate_ ) {
+    while (!*user_->shouldTerminate()) {
         const int bufsize = 1024;
         char buf[bufsize];
         std::cin.getline(buf, bufsize);
         std::string line(buf);
         Message* msg = enddec.parseMsgFromKeyboard(line);
 
-        if ( *user_->isConnected()) {
+        if ( *user_->isConnected() | msg->getType() == logout) {
             msg->execute();
             info_->addToreceiptPerMsgMap(stoi(msg->getreciptid()), msg);
             std::string encoded = enddec.encode(msg);
@@ -43,5 +43,6 @@ void ClientKeyboard::run() {
             std::cout <<  "please login to continue" << std::endl;
         }
     }
+    handler_->close();
 }
 

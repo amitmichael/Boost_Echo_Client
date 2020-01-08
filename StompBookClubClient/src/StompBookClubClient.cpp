@@ -24,22 +24,19 @@ int main (int argc, char *argv[]) {
 
 
     ConnectionHandler*  connectionHandler;// = new ConnectionHandler(host, port);
-    User *user = new User(new bool(false));
+    User *user = new User(new bool(false) , new bool(false));
     MsgInfo* info = new MsgInfo();
-    bool* shouldTerminate = new bool(false);
-    ClientKeyboard clientKeyboard(connectionHandler,shouldTerminate,info,user);
-    ClientSocket clientSocket(connectionHandler,shouldTerminate,info,user);
+    ClientKeyboard clientKeyboard(connectionHandler,info,user);
+    ClientSocket clientSocket(connectionHandler,info,user);
     //clientSocket.connect();
     std::thread threadKeyboard(&ClientKeyboard::run,&clientKeyboard); // run keyboard thread
     std::thread threadSocket(&ClientSocket::run,&clientSocket); // run socket thread
     threadKeyboard.join();
     threadSocket.join();
-    connectionHandler->close();
 
 
     /// delete all objects ///
     delete(info);
-    delete(shouldTerminate);
     delete(connectionHandler);
     delete(user);
 

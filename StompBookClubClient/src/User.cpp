@@ -8,13 +8,14 @@
 User::~User() {
     delete(inventory_);
     delete(connected);
+    delete(shouldTerminate_);
 }
 
 std::string User::getName(){
     return name_;
 }
 
-User::User(bool* connected):genreSubIMmap(),connected(connected){
+User::User(bool* connected, bool* shouldTerminate):genreSubIMmap(),connected(connected),shouldTerminate_(shouldTerminate){
     Default=true;
     name_ = "defaultUser";
     inventory_ = new Inventory(name_);
@@ -26,6 +27,11 @@ User::User(bool* connected):genreSubIMmap(),connected(connected){
 bool* User::isConnected(){
     return connected;
 }
+
+bool* User::shouldTerminate(){
+    return shouldTerminate_;
+}
+
 
 
 bool User::isDefault(){

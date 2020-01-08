@@ -17,7 +17,13 @@ void Message::execute(){
     reciptid = std::to_string(receiptid);
 
 
-       if (type==login){
+       if (type == logout){
+           if (!*user_->isConnected()){
+               *user_->shouldTerminate() = true;
+           }
+       }
+
+        if (type==login){
            user_->setName(userName);
            *user_->isConnected() = true;
        }

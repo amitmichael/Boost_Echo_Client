@@ -8,7 +8,7 @@
 
 
 
-ClientSocket::ClientSocket(ConnectionHandler* handler, bool* shouldTerminate,MsgInfo* info,User* user): handler_(handler),shouldTerminate_(shouldTerminate),info_(info),user_(user){};
+ClientSocket::ClientSocket(ConnectionHandler* handler,MsgInfo* info,User* user): handler_(handler),info_(info),user_(user){};
 
 void ClientSocket::connect() {
 
@@ -24,7 +24,7 @@ void ClientSocket::connect() {
 
 void ClientSocket::run() {
     StompEncoderDecoder enddec(user_);
-    while (!*shouldTerminate_ &  *user_->isConnected()) {
+    while (!*user_->shouldTerminate() &  *user_->isConnected()) {
         const int bufsize = 1024;
         char buf[bufsize];
         handler_->getBytes(buf,bufsize);

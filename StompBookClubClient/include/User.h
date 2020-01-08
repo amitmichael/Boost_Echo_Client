@@ -13,7 +13,7 @@
 class User {
 
 public:
-    User(bool* connected);
+    User(bool* connected, bool* shouldTerminate);
     ~User();
     std::string getName();
     bool isDefault();
@@ -25,6 +25,7 @@ public:
     int getSubIdByGenre(std::string genre);
     void setName(std::string name);
     bool* isConnected();
+    bool* shouldTerminate();
 private:
 
     std::string name_;
@@ -33,7 +34,7 @@ private:
     int subscriptionIdCounter;
     int receiptId;
     bool* connected;
-
+    bool* shouldTerminate_;
     std::map<std::string,int> genreSubIMmap;
 
 
