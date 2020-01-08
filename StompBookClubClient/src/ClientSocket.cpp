@@ -36,7 +36,7 @@ void ClientSocket::run() {
         int rid = stoi(msg->getreciptid());
         if (rid>0){
             Message* before = info_->getMsgByReceiptId(rid);
-            msg.loadFromBefore(before);
+            msg->loadFromBefore(before);
         }
         msg->execute();
         info_->addToreceiptPerMsgMap(stoi(msg->getreciptid()), msg);

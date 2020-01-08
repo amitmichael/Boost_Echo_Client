@@ -61,8 +61,8 @@ void Message::execute(){
 
 }
 
-void  Message::loadFromBefore(Message before){
-    beforeType=before.type;
+void  Message::loadFromBefore(Message* before){
+    beforeType=before->type;
 }
 
 void Message::addFirst(std::string msg){
