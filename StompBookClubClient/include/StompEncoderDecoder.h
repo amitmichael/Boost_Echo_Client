@@ -14,7 +14,7 @@ class StompEncoderDecoder {
 private:
     User* user_;
     std::vector<unsigned char>* bytes = new std::vector<unsigned char>; //start with 1k
-    int len = 0;
+   // int len = 0;
 
 
 public:

@@ -24,8 +24,8 @@ int main (int argc, char *argv[]) {
 
 
     ConnectionHandler*  connectionHandler = new ConnectionHandler(host, port);
-    User *user = new User();
     MsgInfo* info = new MsgInfo();
+    User *user = new User();
     bool* shouldTerminate = new bool(false);
     bool* connected = new bool(true);
     ClientKeyboard clientKeyboard(connectionHandler,host,port,shouldTerminate,info,connected,user);

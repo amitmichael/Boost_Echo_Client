@@ -17,7 +17,11 @@ enum MessageType {login,
     returnn, //double n
     status,
     logout,
-    clear
+    clear,
+    connected,
+    error,
+    recepit,
+    message
     };
 
 class Message {
@@ -50,7 +54,7 @@ private:
 
     std::vector<std::pair<std::string,std::string>> header;
     std::string body;
-
+    std::string beforeType;
     std::map<std::string, MessageType> mapMessageType;
     std::string destination;
     std::string command;
@@ -67,6 +71,7 @@ private:
 
     void setBody(std::string body_);
 
+    void loadFromBefore(Message before);
 };
 
 
