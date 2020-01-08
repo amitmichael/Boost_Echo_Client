@@ -7,20 +7,10 @@
 
 User::~User() {
     delete(inventory_);
-    delete(genreSubIMmap);
 }
 
-User::User(){
-    Default=true;
-    name = "defaultUser";
-    inventory_ = new Inventory(name);
-    subscriptionIdCounter=0;
-    receiptId=0;
-    genreSubIMmap = new std::map<std::string,int>;
-
-};
 std::string User::getName(){
-    return name;
+    return name_;
 }
 
 User::User():genreSubIMmap(){
@@ -31,9 +21,7 @@ User::User():genreSubIMmap(){
     receiptId=0;
 
 };
-std::string User::getName(){
-    return name_;
-}
+
 bool User::isDefault(){
     return Default;
 }

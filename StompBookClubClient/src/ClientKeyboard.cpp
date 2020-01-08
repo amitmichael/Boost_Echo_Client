@@ -8,10 +8,8 @@
 #include "../include/MsgInfo.h"
 
 
-ClientKeyboard::ClientKeyboard(ConnectionHandler* handler,std::string host, int port,bool* shouldTerminate,MsgInfo* info,
+ClientKeyboard::ClientKeyboard(ConnectionHandler* handler,std::string host, int port,bool* shouldTerminate,MsgInfo* info,bool* connected,User* user) : handler_(handler),host_(host),port_(port),shouldTerminate_(shouldTerminate),info_(info),connected_(connected),user_(user){};
 
-    while (!*shouldTerminate_) {
-                               bool* connected,User* user) : handler_(handler),host_(host),port_(port),shouldTerminate_(shouldTerminate),info_(info),connected_(connected),user_(user){};
 
 
 void ClientKeyboard::run() {

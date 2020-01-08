@@ -5,8 +5,7 @@
 #include "../include/MsgInfo.h"
 
 
-MsgInfo::MsgInfo(){
-    receiptPerMsgMap = new std::map<int,Message>;
+MsgInfo::MsgInfo():receiptPerMsgMap(){
 }
 
 

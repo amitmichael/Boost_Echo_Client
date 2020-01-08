@@ -101,7 +101,7 @@ void Message::addNext(std::string msg,int index){
 }
 
 
-}
+
 
 MessageType Message::getType(){
     return type;

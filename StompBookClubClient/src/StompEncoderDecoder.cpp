@@ -94,16 +94,16 @@ Message* StompEncoderDecoder::parseMsgFromKeyboard(std::string msg) {
     return parsedMsg;
 
 }
-Message StompEncoderDecoder::parseMsgFromSocket(std::string msg){
+Message* StompEncoderDecoder::parseMsgFromSocket(std::string msg){
     int index =0;
     std::string line="";
     bool endline=false;
     bool emptyline=false;
-    Message parsedMsg(user_) ;
+    Message* parsedMsg = new Message(user_) ;
     for(auto x:msg){
         if(index==0){
             if (x == '\n') {
-                parsedMsg.addFirst(line);
+                parsedMsg->addFirst(line);
                 line="";
                 index++;
             }
@@ -124,7 +124,7 @@ Message StompEncoderDecoder::parseMsgFromSocket(std::string msg){
                 endline=false;
             }
             if (x=='\n'){
-                parsedMsg.addNext(line,4);
+                parsedMsg->addNext(line,4);
                 line="";
                 endline=true;
             }
@@ -132,7 +132,7 @@ Message StompEncoderDecoder::parseMsgFromSocket(std::string msg){
         }
         if (index==2){
             if (x=='\n'){
-                parsedMsg.addNext(line,5);
+                parsedMsg->addNext(line,5);
             }
         }
     }

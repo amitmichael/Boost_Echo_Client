@@ -33,10 +33,10 @@ void ClientSocket::run() {
         if (toAdd.size() > 0) {
          //   nextMessage.addNextInput(toAdd); ??
         }
-        Message msg = enddec.parseMsgFromSocket(toAdd);
-        msg.execute();
+        Message* msg = enddec.parseMsgFromSocket(toAdd);
+        msg->execute();
         std::string decoded = enddec.encode(msg);
-        msg.clear();
+        //msg->clear();
         std::cout << decoded << std::endl;
         handler_->sendBytes(decoded.c_str(), decoded.length());
 
