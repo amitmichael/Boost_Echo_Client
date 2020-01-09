@@ -24,17 +24,17 @@ ConnectionHandler::~ConnectionHandler() {
 bool ConnectionHandler::connect() {
     std::cout << "Starting connect to " 
         << host_ << ":" << port_ << std::endl;
-   // try {
+    try {
 		tcp::endpoint endpoint(boost::asio::ip::address::from_string(host_), port_); // the server endpoint
 		boost::system::error_code error;
 		socket_.connect(endpoint, error);
 		if (error)
 			throw boost::system::system_error(error);
-   // }
-//    catch (std::exception& e) {
-//        std::cerr << "Connection failed (Error: " << e.what() << ')' << std::endl;
-//        return false;
-//    }
+    }
+    catch (std::exception& e) {
+        std::cerr << "Connection failed (Error: " << e.what() << ')' << std::endl;
+        return false;
+    }
     return true;
 }
  
@@ -49,6 +49,8 @@ bool ConnectionHandler::getBytes(char bytes[], unsigned int bytesToRead) {
 			throw boost::system::system_error(error);
     } catch (std::exception& e) {
         std::cerr << "recv failed (Error: " << e.what() << ')' << std::endl;
+        std::cout << "getBytes" << std::endl;
+
         return false;
     }
     return true;
@@ -65,6 +67,7 @@ bool ConnectionHandler::sendBytes(const char bytes[], int bytesToWrite) {
 			throw boost::system::system_error(error);
     } catch (std::exception& e) {
         std::cerr << "recv failed (Error: " << e.what() << ')' << std::endl;
+        std::cout << "sendBytes" << std::endl;
         return false;
     }
     return true;
@@ -97,7 +100,8 @@ bool ConnectionHandler::getFrameAscii(std::string& frame, char delimiter) {
 	}while (delimiter != ch);
     } catch (std::exception& e) {
 	std::cerr << "recv failed2 (Error: " << e.what() << ')' << std::endl;
-	return false;
+	std::cout << "getFrameAscii" << std::endl;
+        return false;
     }
     return true;
 }

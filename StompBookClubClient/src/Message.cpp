@@ -19,12 +19,6 @@ void Message::execute(){
     reciptid = std::to_string(receiptid);
 
 
-       if (type == logout){
-           if (!*user_->isConnected()){
-               *user_->shouldTerminate() = true;
-           }
-       }
-
         if (type==login){
            user_->setName(userName);
 
@@ -53,8 +47,7 @@ void Message::execute(){
            }
            else if (beforeType==logout){
                std::cout<<"logging out... "+getDestination()<<std::endl;
-               user_->setTermination(true);
-
+               *user_->shouldTerminate() = true;
            }
            else{
               std::cout<<"beforeTYPE is invalid"<<std::endl;

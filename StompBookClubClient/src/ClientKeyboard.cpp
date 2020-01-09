@@ -15,24 +15,20 @@ ClientKeyboard::ClientKeyboard(ConnectionHandler* handler,MsgInfo* info,User* us
 void ClientKeyboard::run() {
     StompEncoderDecoder enddec(user_);
     while (!*user_->shouldTerminate()) {
+
         const int bufsize = 1024;
         char buf[bufsize];
         std::cin.getline(buf, bufsize);
         std::string line(buf);
         Message* msg = enddec.parseMsgFromKeyboard(line);
-
-        if ( *user_->isConnected() | msg->getType() == logout | msg->getType() == login) {
-            msg->execute();
-            info_->addToreceiptPerMsgMap(stoi(msg->getreciptid()), msg);
-            std::string encoded = enddec.encode(msg);
-            std::cout << encoded << std::endl;
-            handler_->sendBytes(encoded.c_str(), encoded.length());
+        msg->execute();
+        info_->addToreceiptPerMsgMap(stoi(msg->getreciptid()), msg);
+        std::string encoded = enddec.encode(msg);
+        std::cout << encoded << std::endl;
+        handler_->sendBytes(encoded.c_str(), encoded.length());
+        if (msg->getType() == logout)
+            break;
         }
 
-        else{
-            std::cout <<  "please login to continue" << std::endl;
-        }
-    }
-    handler_->close();
 }
 

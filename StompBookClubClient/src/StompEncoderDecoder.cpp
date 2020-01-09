@@ -7,7 +7,9 @@
 
 
 StompEncoderDecoder::StompEncoderDecoder(User* user):user_(user){}
-StompEncoderDecoder::~StompEncoderDecoder(){}
+StompEncoderDecoder::~StompEncoderDecoder(){
+    delete (bytes);
+}
 
 std::string StompEncoderDecoder::encode(Message* msg){
 
@@ -70,7 +72,6 @@ Message* StompEncoderDecoder::parseMsgFromKeyboard(std::string msg) {
                 index++;
             }
             else {
-
                 parsedMsg->addNext(word,index);
                 word = "";
                 index++;
