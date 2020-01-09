@@ -90,6 +90,9 @@ Message* StompEncoderDecoder::parseMsgFromKeyboard(std::string msg) {
 
 }
 Message* StompEncoderDecoder::parseMsgFromSocket(std::string msg){
+    if (msg.size()==0){
+        return nullptr;
+    }
     int index =0;
     std::string line="";
     bool endline=false;
@@ -109,7 +112,7 @@ Message* StompEncoderDecoder::parseMsgFromSocket(std::string msg){
         if (emptyline){
             index++;
         }
-        if (index==1){
+        if (index==1){ //headers parse
             if(endline){ //checks if it is an empty line and skip it
                 if (x=='\n'){
                  index++;
@@ -123,7 +126,7 @@ Message* StompEncoderDecoder::parseMsgFromSocket(std::string msg){
                 line="";
                 endline=true;
             }
-            line=line+x;
+            else{ line=line+x;}
         }
         if (index==2){
             if (x=='\n'){

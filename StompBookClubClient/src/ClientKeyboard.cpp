@@ -8,7 +8,7 @@
 #include "../include/MsgInfo.h"
 
 
-ClientKeyboard::ClientKeyboard(ConnectionHandler* handler,MsgInfo* info,User* user) : handler_(handler),info_(info),user_(user){};
+ClientKeyboard::ClientKeyboard(ConnectionHandler* handler,MsgInfo* info,User* user,std::mutex & _mutex) : handler_(handler),info_(info),user_(user),_mutex(_mutex){};
 
 
 
@@ -21,24 +21,14 @@ void ClientKeyboard::run() {
         std::string line(buf);
         Message* msg = enddec.parseMsgFromKeyboard(line);
 
-        if ( *user_->isConnected() | msg->getType() == logout) {
+        if ( *user_->isConnected() | msg->getType() == logout | msg->getType() == login) {
             msg->execute();
             info_->addToreceiptPerMsgMap(stoi(msg->getreciptid()), msg);
             std::string encoded = enddec.encode(msg);
             std::cout << encoded << std::endl;
             handler_->sendBytes(encoded.c_str(), encoded.length());
         }
-        else if (msg->getType() ==login){
-           host_ = msg->getHost();
-           port_ = msg->getPort();
-           handler_ = new ConnectionHandler(host_,port_);
-           handler_->connect();
-            msg->execute();
-            info_->addToreceiptPerMsgMap(stoi(msg->getreciptid()), msg);
-            std::string encoded = enddec.encode(msg);
-            std::cout << encoded << std::endl;
-            handler_->sendBytes(encoded.c_str(), encoded.length());
-       }
+
         else{
             std::cout <<  "please login to continue" << std::endl;
         }

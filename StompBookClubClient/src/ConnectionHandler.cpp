@@ -71,6 +71,9 @@ bool ConnectionHandler::sendBytes(const char bytes[], int bytesToWrite) {
 }
  
 bool ConnectionHandler::getLine(std::string& line) {
+    if (line.find('@')!=std::string::npos){
+        return false;
+    }
     return getFrameAscii(line, '\n');
 }
 

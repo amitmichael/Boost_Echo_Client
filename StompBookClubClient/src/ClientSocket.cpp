@@ -8,7 +8,7 @@
 
 
 
-ClientSocket::ClientSocket(ConnectionHandler* handler,MsgInfo* info,User* user): handler_(handler),info_(info),user_(user){};
+ClientSocket::ClientSocket(ConnectionHandler* handler,MsgInfo* info,User* user,std::mutex & _mutex): handler_(handler),info_(info),user_(user),_mutex(_mutex){};
 
 void ClientSocket::connect() {
 
@@ -24,23 +24,24 @@ void ClientSocket::connect() {
 
 void ClientSocket::run() {
     StompEncoderDecoder enddec(user_);
-    while (!*user_->shouldTerminate() &  *user_->isConnected()) {
-        const int bufsize = 1024;
-        char buf[bufsize];
-        handler_->getBytes(buf,bufsize);
-        std::string toAdd;
-        while (toAdd.size()==0){
-            toAdd=(std::string)enddec.decodeNextByte(buf[0]);
+    while (!*user_->shouldTerminate() ) {
+        std::lock_guard<std::mutex> lock(_mutex);
+        if (*user_->isConnected()) {
+            std::string toAdd = "";
+            while (handler_->getLine(toAdd) != false) {
+
+            }
+            Message *msg = enddec.parseMsgFromSocket(toAdd);
+            if (msg != nullptr) {
+                int rid = stoi(msg->getreciptid());
+                if (rid > 0) {
+                    Message *before = info_->getMsgByReceiptId(rid);
+                    msg->loadFromBefore(before);
+                }
+                msg->execute();
+                info_->addToreceiptPerMsgMap(stoi(msg->getreciptid()), msg);
+                std::cout << msg << std::endl;
+            }
         }
-        Message* msg = enddec.parseMsgFromSocket(toAdd);
-        int rid = stoi(msg->getreciptid());
-        if (rid>0){
-            Message* before = info_->getMsgByReceiptId(rid);
-            msg.loadFromBefore(before);
-        }
-        msg->execute();
-        info_->addToreceiptPerMsgMap(stoi(msg->getreciptid()), msg);
-        //msg->clear();
-        std::cout << msg << std::endl;
     }
 }
