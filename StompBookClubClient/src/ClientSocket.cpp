@@ -46,6 +46,11 @@ void ClientSocket::run() {
                         handler_->sendBytes(out.c_str(), out.length());
                     }
                 }
+                if (msg->getType() == status){
+                    std::string encoded = enddec.encode(msg);
+                    std::cout << encoded << std::endl;
+                    handler_->sendBytes(encoded.c_str(), encoded.length());
+                }
                 info_->addToreceiptPerMsgMap(stoi(msg->getreciptid()), msg);
                 std::cout << enddec.toString(msg) << std::endl;
             }

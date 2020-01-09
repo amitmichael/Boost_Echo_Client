@@ -67,6 +67,11 @@ void Message::execute(){
                toSend=""+user_->getName()+" has the book "+bookName;
            }
        }
+       if (type == status){
+
+
+
+       }
 
 }
 
@@ -153,6 +158,9 @@ void Message::addNext(std::string msg,int index){
             type =borrow;
             int i = msg.find("borrow");
             bookName = msg.substr(i+7);
+        }
+        if (msg.find("book status")!=std::string::npos){
+            type = status;
         }
     }
 }

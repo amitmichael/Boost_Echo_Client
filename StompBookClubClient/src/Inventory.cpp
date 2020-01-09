@@ -61,6 +61,24 @@ std::map<std::string,std::vector<Book*>*> Inventory::getBorrowedBooks(){
     }
 
 
+    std::string Inventory::getStatus(std::string genre){
+        std::string toReturn;
+        std::vector<Book*>* vec=  books_.at(genre);
+        if (vec!= nullptr){
+            toReturn = ":";
+            for(auto it = vec->begin(); it!= vec->end(); it++){
+                Book* book = *it;
+                toReturn= toReturn + book->getName() + ",";
+            }
+            toReturn= toReturn.substr(0,toReturn.size()-1); // remove last comma
+
+        }
+
+        return toReturn;
+    }
+
+
+
 
 
 
