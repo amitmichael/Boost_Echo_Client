@@ -17,7 +17,8 @@ public:
     Inventory(std::string username);
     ~Inventory();
     void addBook(Book* book);
-   // User returnBook(std::string genre,std::string bookname);
+    void hasBook(std::string bookname);
+        // User returnBook(std::string genre,std::string bookname);
    // void returnBorrowedBookToOwner(std::string genre,Book book);
     std::map<std::string,std::vector<Book*>*> getBooks();
     std::map<std::string,std::vector<Book*>*> getBorrowedBooks();
