@@ -60,8 +60,11 @@ void Message::execute(){
            else if(beforeType==add){
                std::cout<<""+userName+" has added the book "+bookName<<std::endl;
            }
-           else if(beforeType==borrow){
-
+       }
+       if (type==borrow){
+           Inventory* inv =  user_->getInv();
+           if (inv->hasBook(bookName,destination)){
+               toSend=""+user_->getName()+" has the book "+bookName;
            }
        }
 
@@ -71,13 +74,12 @@ void  Message::loadFromBefore(Message* before){
     beforeType=before->type;
     bookName=before->getBookName();
     destination=before->getDestination();
-    if (beforeType==borrow){
-        Inventory* inv =  user_->getInv();
-        if(inv->getBooks().count(destination)>0){
-            std::vector<Book*>* books =inv->getBooks().at(destination);
+//    if (beforeType==borrow){
+//        Inventory* inv =  user_->getInv();
+//        if (inv->hasBook(bookName,destination)){
+//            toSend=""+user_->getName()+"has the book"+bookName;
+//        }
 
-        }
-    }
 }
 
 void Message::addFirst(std::string msg){
@@ -147,6 +149,11 @@ void Message::addNext(std::string msg,int index){
            int pos=msg.find("book");
            bookName=msg.substr(pos+5);
         }
+        if (msg.find("wish to borrow")!=std::string::npos){
+            type =borrow;
+            int i = msg.find("borrow");
+            bookName = msg.substr(i+7);
+        }
     }
 }
 
@@ -195,7 +202,9 @@ std::string Message::getreciptid(){
 void Message::setBody(std::string body_){
     body=body_;
 }
-
+std::string Message::getToSend(){
+    return toSend;
+}
 
 void Message::loadMessageTypeMap(){
     mapMessageType.insert(std::make_pair("logout", MessageType::logout));
@@ -213,4 +222,5 @@ void Message::loadMessageTypeMap(){
 
 
 }
+
 
