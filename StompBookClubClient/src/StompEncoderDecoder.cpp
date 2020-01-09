@@ -53,6 +53,12 @@ std::string StompEncoderDecoder::toString(Message* m) {
     if (m->getType() == logout){
         toReturn = "DISCONNECT\nreceipt:" + m->getreciptid() + '\n'  + '\n' + '\0';
     }
+    if (m->getType() == status){
+        std::string bodyToSend =user_->getName();
+        Inventory* inv =  user_->getInv();
+        bodyToSend = bodyToSend + inv->getStatus(m->getDestination());
+        toReturn = "SEND\ndestination:" + m->getDestination() +'\n' + '\n'  + bodyToSend + '\n' + '\0';
+    }
 
 
     return toReturn;

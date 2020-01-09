@@ -22,6 +22,7 @@ public:
    // void returnBorrowedBookToOwner(std::string genre,Book book);
     std::map<std::string,std::vector<Book*>*> getBooks();
     std::map<std::string,std::vector<Book*>*> getBorrowedBooks();
+    std::string getStatus(std::string genre);
 
 
 private:
