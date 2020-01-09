@@ -46,10 +46,20 @@ std::map<std::string,std::vector<Book*>*> Inventory::getBorrowedBooks(){
     return borrowedBooks_;
 }
 
-//    void Inventory::hasBook(std::string bookname){
-//    return (books_.find()!=std::string::npos)
-//}
-//
+    bool Inventory::hasBook(std::string bookname,std::string genere){
+        if(getBooks().count(genere)>0){
+            std::vector<Book*>* vec=  books_.at(genere);
+            for(auto it = vec->begin(); it!= vec->end(); it++){
+                Book* book = *it;
+                if (book->getName() == bookname){
+                    return true;
+                }
+            }
+        }
+        return false;
+
+    }
+
 
 
 

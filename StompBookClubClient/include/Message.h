@@ -46,7 +46,7 @@ public:
     void setBody(std::string body_);
     void loadFromBefore(Message* before);
     User* getUser();
-
+    std::string getToSend();
 
 
 
@@ -67,6 +67,7 @@ private:
     User* user_;
     std::string subscriptionId;
     std::string reciptid;
+    std::string toSend="";
 
 
 

@@ -29,7 +29,6 @@ void ClientSocket::run() {
         if (*user_->isConnected()) {
             std::string toAdd = "";
             while (handler_->getLine(toAdd) != false) {
-
             }
             Message *msg = enddec.parseMsgFromSocket(toAdd);
             if (msg != nullptr) {
@@ -39,6 +38,14 @@ void ClientSocket::run() {
                     msg->loadFromBefore(before);
                 }
                 msg->execute();
+                if (msg->getType()==borrow){
+                    std::string out=msg->getToSend();
+                    if (out.size()>0){ //send msg that the user has the book
+                        //info_->addToreceiptPerMsgMap(stoi(msg->getreciptid()), msg);
+                        std::cout << out << std::endl;
+                        handler_->sendBytes(out.c_str(), out.length());
+                    }
+                }
                 info_->addToreceiptPerMsgMap(stoi(msg->getreciptid()), msg);
                 std::cout << msg << std::endl;
             }
