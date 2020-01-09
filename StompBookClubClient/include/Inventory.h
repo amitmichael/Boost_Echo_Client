@@ -25,7 +25,7 @@ public:
 
 
 private:
-    std::map<std::string,std::vector<Book*>*> books_;
+    std::map<std::string,std::vector<Book*>*> books_; // key - genre , vector of books
     std::map<std::string,std::vector<Book*>*> borrowedBooks_;
     std::string username_;
 

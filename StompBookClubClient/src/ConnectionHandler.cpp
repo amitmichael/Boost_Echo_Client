@@ -24,17 +24,17 @@ ConnectionHandler::~ConnectionHandler() {
 bool ConnectionHandler::connect() {
     std::cout << "Starting connect to " 
         << host_ << ":" << port_ << std::endl;
-    try {
+   // try {
 		tcp::endpoint endpoint(boost::asio::ip::address::from_string(host_), port_); // the server endpoint
 		boost::system::error_code error;
 		socket_.connect(endpoint, error);
 		if (error)
 			throw boost::system::system_error(error);
-    }
-    catch (std::exception& e) {
-        std::cerr << "Connection failed (Error: " << e.what() << ')' << std::endl;
-        return false;
-    }
+   // }
+//    catch (std::exception& e) {
+//        std::cerr << "Connection failed (Error: " << e.what() << ')' << std::endl;
+//        return false;
+//    }
     return true;
 }
  
