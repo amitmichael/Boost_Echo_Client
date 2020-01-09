@@ -26,6 +26,7 @@ public:
     void setName(std::string name);
     bool* isConnected();
     bool* shouldTerminate();
+    void setTermination(bool toTerminate);
 private:
 
     std::string name_;
@@ -37,6 +38,7 @@ private:
     bool* connected;
     bool* shouldTerminate_;
     std::map<std::string,int> genreSubIMmap;
+
 
 };
 

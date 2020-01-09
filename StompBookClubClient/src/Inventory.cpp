@@ -39,6 +39,17 @@ Inventory::Inventory(std::string username):username_(username),books_(),borrowed
         }
     }
 
+std::map<std::string,std::vector<Book*>*> Inventory::getBooks(){
+    return books_;
+}
+std::map<std::string,std::vector<Book*>*> Inventory::getBorrowedBooks(){
+    return borrowedBooks_;
+}
+
+//    void Inventory::hasBook(std::string bookname){
+//    return (books_.find()!=std::string::npos)
+//}
+//
 
 
 

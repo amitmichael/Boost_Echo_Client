@@ -52,8 +52,8 @@ public:
 
 private:
     MessageType type;
-
-    std::vector<std::pair<std::string,std::string>> header;
+    std::string msgID;
+    int version;
     std::string body;
     MessageType beforeType;
     std::map<std::string, MessageType> mapMessageType;

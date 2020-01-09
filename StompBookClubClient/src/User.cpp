@@ -74,4 +74,7 @@ int User::getSubIdByGenre(std::string genre){
 void User::setName(std::string name){
     name_ = name;
 }
+void User::setTermination(bool toTerminate){
+    *shouldTerminate()=toTerminate;
+}
 
