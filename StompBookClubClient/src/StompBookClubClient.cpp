@@ -66,10 +66,7 @@ int main (int argc, char *argv[]) {
     std::thread threadSocket(&ClientSocket::run, &clientSocket); // run socket thread
     threadKeyboard.join();
     threadSocket.join();
-
-
-
-
+    connectionHandler->close();
 
     /// delete all objects ///
     delete(info);

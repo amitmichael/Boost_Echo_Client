@@ -25,11 +25,10 @@ void ClientSocket::connect() {
 void ClientSocket::run() {
     StompEncoderDecoder enddec(user_);
     while (!*user_->shouldTerminate() ) {
-        std::lock_guard<std::mutex> lock(_mutex);
         if (*user_->isConnected()) {
+            std::lock_guard<std::mutex> lock(_mutex);
             std::string toAdd = "";
             while (handler_->getLine(toAdd) != false) {
-
             }
             Message *msg = enddec.parseMsgFromSocket(toAdd);
             if (msg != nullptr) {
