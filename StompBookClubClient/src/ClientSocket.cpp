@@ -27,12 +27,9 @@ void ClientSocket::run() {
     while (!*user_->shouldTerminate() ) {
         std::lock_guard<std::mutex> lock(_mutex);
         if (*user_->isConnected()) {
-            const int bufsize = 1024;
-            char buf[bufsize];
-            bool notEmpty = handler_->getBytes(buf, bufsize);
-            std::string toAdd;
-            while (toAdd.size() == 0 & notEmpty) {
-                toAdd = (std::string) enddec.decodeNextByte(buf[0]);
+            std::string toAdd = "";
+            while (handler_->getLine(toAdd) != false) {
+
             }
             Message *msg = enddec.parseMsgFromSocket(toAdd);
             if (msg != nullptr) {
@@ -43,7 +40,6 @@ void ClientSocket::run() {
                 }
                 msg->execute();
                 info_->addToreceiptPerMsgMap(stoi(msg->getreciptid()), msg);
-                //msg->clear();
                 std::cout << msg << std::endl;
             }
         }

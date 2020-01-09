@@ -51,7 +51,7 @@ bool ConnectionHandler::getBytes(char bytes[], unsigned int bytesToRead) {
         std::cerr << "recv failed (Error: " << e.what() << ')' << std::endl;
         return false;
     }
-    return tmp>0;
+    return true;
 }
 
 bool ConnectionHandler::sendBytes(const char bytes[], int bytesToWrite) {
@@ -71,6 +71,9 @@ bool ConnectionHandler::sendBytes(const char bytes[], int bytesToWrite) {
 }
  
 bool ConnectionHandler::getLine(std::string& line) {
+    if (line.find('@')!=std::string::npos){
+        return false;
+    }
     return getFrameAscii(line, '\n');
 }
 
