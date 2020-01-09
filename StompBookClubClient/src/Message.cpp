@@ -10,6 +10,7 @@
 Message::Message(User* user):user_(user){
     loadMessageTypeMap();
     userName = user_->getName();
+    reciptid = "-1";
 }
 
 void Message::execute(){
@@ -25,7 +26,7 @@ void Message::execute(){
 
         if (type==login){
            user_->setName(userName);
-           *user_->isConnected() = true;
+
        }
         if(type== add){
             Inventory* inv =  user_->getInv();
@@ -42,14 +43,14 @@ void Message::execute(){
            user_->removeFromenreSubIdmap(destination);
        }
        if(type==connected){
-           std::cout<<"Login succsessful"<<std::endl;
+           std::cout<<"Login successful"<<std::endl;
        }
        if (type==recepit){
-           if (beforeType=="join"){
+           if (beforeType== join){
                std::cout<<"Joined club "+getDestination()<<std::endl;
            }
-           else if (beforeType=="logout"){
-               std::cout<<"Joined club "+getDestination()<<std::endl;
+           else if (beforeType== logout){
+               //std::cout<<"Joined club "+getDestination()<<std::endl;
            }
            else{
               std::cout<<"beforeTYPE is invalid"<<std::endl;

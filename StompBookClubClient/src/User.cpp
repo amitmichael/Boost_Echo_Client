@@ -50,7 +50,8 @@ int User::getAndIncrementSubscriptionId(){
 }
 
 void User::addToGenreSubIdmap(std::string genre ,int id){
-    genreSubIMmap.insert(std::make_pair(genre,id));
+    if (genreSubIMmap.count(genre)> 0)
+        genreSubIMmap.insert(std::make_pair(genre,id));
 }
 
 

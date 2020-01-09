@@ -40,7 +40,7 @@ void ClientSocket::run() {
                 }
                 msg->execute();
                 info_->addToreceiptPerMsgMap(stoi(msg->getreciptid()), msg);
-                std::cout << msg << std::endl;
+                std::cout << enddec.toString(msg) << std::endl;
             }
         }
     }

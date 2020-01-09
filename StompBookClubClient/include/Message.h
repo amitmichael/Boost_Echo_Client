@@ -55,7 +55,7 @@ private:
 
     std::vector<std::pair<std::string,std::string>> header;
     std::string body;
-    std::string beforeType;
+    MessageType beforeType;
     std::map<std::string, MessageType> mapMessageType;
     std::string destination;
     std::string command;
