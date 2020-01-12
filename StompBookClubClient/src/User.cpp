@@ -77,15 +77,24 @@ void User::setName(std::string name){
 void User::setTermination(bool toTerminate){
     *shouldTerminate()=toTerminate;
 }
-/*void User::moveToBorrowed(Book* book){
-std::string genere=book->getGenre();
+
+std::vector<std::string>* User::getWishList() {
+    return &wishList;
+}
+
+
+/*void User::moveToBorrowed(std::string borrowed,std::string genere){
 Inventory* inv=getInv();
     std::vector<Book*>* vec=inv->getBooks().at(genere);
     for(auto it = vec->begin(); it!= vec->end(); it++){
-        Book* booki = *it;
-        if (booki->getName() == book->getName()){
-            inv->getBorrowedBooks().put
-
+        Book* book = *it;
+        if (book->getName() == borrowed){
+            std::map<std::string,std::vector<Book*>*> map;
+            inv->getBorrowedBooks().insert(std::make_pair(genere,book));
+            inv->getBooks()std::make_pair(genere,book));
         }
-}*/
+
+        }*/
+//}
+
 

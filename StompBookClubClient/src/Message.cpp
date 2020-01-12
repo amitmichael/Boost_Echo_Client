@@ -40,6 +40,9 @@ void Message::execute(){
        if(type==connected){
            std::cout<<"Login successful"<<std::endl;
        }
+       if (type==borrow){ // this want to borrow a book
+           user_->getWishList()->push_back(bookName);
+       }
        if (type==recepit){
 
            if (beforeType==join){
@@ -60,21 +63,39 @@ void Message::execute(){
            else if(beforeType==add){
                std::cout<<""+userName+" has added the book "+bookName<<std::endl;
            }
-           else if (body.find("wish to borrow")!=std::string::npos){
+           else if (body.find("wish to borrow")!=std::string::npos){ // someone wants to borrow a book
                type=borrow;
+           }
+           else if (body.find("has")!=std::string::npos){
+               int pos=body.find("has");
+               std::string bookToBorrow=body.substr(body.find(pos+4));
+               std::string loaner=body.substr(0,pos-1);
+               std::vector<std::string> *vec=  user_->getWishList();
+                 for(auto it = vec->begin(); it!= vec->end(); it++) {
+                     std::string book = *it;
+                     if (book == bookToBorrow) {
+                         Inventory* inv =  user_->getInv();
+                         inv->getBooks();//TBD add to that map
+                         toBorrow="SEND\ndestination:"+destination+'\n' + '\n'+"Taking"+bookName+" from "+loaner+'\n' + '\0';
+                     }
+                 }
            }
            else if (body.find("Taking")!=std::string::npos){
                int pos=body.find("from");
                std::string lender=body.substr(pos+5);
                if (lender==userName){
                    Inventory* inv =  user_->getInv();
+                   int pos=body.find("Taking");
+                   std::string borrowed=body.substr(pos+7);
+//                   user_->moveToBorrowed(borrowed,destination);
                }
+
            }
        }
        if (type==borrow){
            Inventory* inv =  user_->getInv();
            if (inv->hasBook(bookName,destination)){
-               toSend=toSend="SEND\ndestination:"+destination+'\n' + '\n'+"user "+user_->getName()+" has the book "+bookName+'\n' + '\0';
+               toSend="SEND\ndestination:"+destination+'\n' + '\n'+"user "+user_->getName()+" has the book "+bookName+'\n' + '\0';
            }
        }
        if (type == status){
@@ -222,6 +243,9 @@ void Message::setBody(std::string body_){
 }
 std::string Message::getToSend(){
     return toSend;
+}
+std::string Message::getToBorrow(){
+    return toBorrow;
 }
 
 void Message::loadMessageTypeMap(){

@@ -41,7 +41,6 @@ void ClientSocket::run() {
                 if (msg->getType()==borrow){
                     std::string out=msg->getToSend();
                     if (out.size()>0){ //send msg that the user has the book
-                        //info_->addToreceiptPerMsgMap(stoi(msg->getreciptid()), msg);
                         std::cout << out << std::endl;
                         handler_->sendBytes(out.c_str(), out.length());
                     }
@@ -50,6 +49,9 @@ void ClientSocket::run() {
                     std::string encoded = enddec.encode(msg);
                     std::cout << encoded << std::endl;
                     handler_->sendBytes(encoded.c_str(), encoded.length());
+                }
+                if (msg->toBorrow.size()>0){//sends the msg Taking
+                    handler_->sendBytes(msg->toBorrow.c_str(), msg->toBorrow.length());
                 }
                 info_->addToreceiptPerMsgMap(stoi(msg->getreciptid()), msg);
                 std::cout << enddec.toString(msg) << std::endl;

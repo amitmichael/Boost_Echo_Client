@@ -47,7 +47,8 @@ public:
     void loadFromBefore(Message* before);
     User* getUser();
     std::string getToSend();
-
+    std::string toBorrow="";
+    std::string getToBorrow();
 
 
 private:

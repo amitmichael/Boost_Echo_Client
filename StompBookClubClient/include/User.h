@@ -27,13 +27,19 @@ public:
     bool* isConnected();
     bool* shouldTerminate();
     void setTermination(bool toTerminate);
-private:
+    void moveToBorrowed(std::string borrowed,std::string genere);
+    std::vector<std::string>* getWishList() ;
 
+private:
     std::string name_;
-    bool Default ;
+    bool Default;
     Inventory* inventory_;
     int subscriptionIdCounter;
     int receiptId;
+    std::vector<std::string> wishList;
+
+
+private:
 
     bool* connected;
     bool* shouldTerminate_;
