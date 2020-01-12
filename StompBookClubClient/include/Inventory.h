@@ -18,17 +18,25 @@ public:
     ~Inventory();
     void addBook(Book* book);
     bool hasBook(std::string bookname,std::string genere);
+    Book* getAndRemoveBorrowedBooks(std::string bookName,std::string genre);
         // User returnBook(std::string genre,std::string bookname);
    // void returnBorrowedBookToOwner(std::string genre,Book book);
-    std::map<std::string,std::vector<Book*>*> getBooks();
-    std::map<std::string,std::vector<Book*>*> getBorrowedBooks();
+    std::map<std::string,std::vector<Book*>*>* getBooks();
+    std::map<std::string,std::vector<Book*>*>* getBorrowedBooks();
+    std::map<std::string,std::vector<Book*>*>* getLoanedBooks();
+    void returnBook(Book* book,std::string genre,std::string userName,int index);
+
     std::string getStatus(std::string genre);
+    void addLoanedBook(Book* book);
 
 
-private:
+
+        private:
+    std::string username_;
     std::map<std::string,std::vector<Book*>*> books_; // key - genre , vector of books
     std::map<std::string,std::vector<Book*>*> borrowedBooks_;
-    std::string username_;
+    std::map<std::string,std::vector<Book*>*> loanedBooks_;
+
 
 
 

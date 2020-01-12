@@ -29,8 +29,8 @@ private:
     std::string host_;
     int port_;
     MsgInfo* info_;
-    std::mutex & _mutex;
     User* user_;
+    std::mutex & _mutex;
 
 
 

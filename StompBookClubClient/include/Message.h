@@ -12,7 +12,8 @@
 enum MessageType {login,
     join,
     add,
-    borrow,
+    wantToBorrow,
+    CheckIfCanLoan,
     exitt, //double t
     returnn, //double n
     status,

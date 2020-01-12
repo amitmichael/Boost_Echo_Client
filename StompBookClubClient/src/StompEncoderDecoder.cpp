@@ -6,7 +6,7 @@
 #include "../include/Message.h"
 
 
-StompEncoderDecoder::StompEncoderDecoder(User* user):user_(user){}
+StompEncoderDecoder::StompEncoderDecoder(User* user):user_(user),bytes(){}
 StompEncoderDecoder::~StompEncoderDecoder(){
     delete (bytes);
 }
@@ -40,7 +40,7 @@ std::string StompEncoderDecoder::toString(Message* m) {
     if (m->getType() == login){
         toReturn = "CONNECT\naccept-version:1.2\nhost:" +m->getHost()+ ":" +std::to_string(m->getPort())+ '\n'+ "login:" + m->getUserName() + '\n' + "passcode:" + m->getPassword() + '\n' + '\n' + '\0';
     }
-    if (m->getType() == borrow){
+    if (m->getType() == wantToBorrow){
         toReturn = "SEND\ndestination:" + m->getDestination() +'\n' + '\n' + m->getUserName() + " wish to borrow " + m->getBookName() + '\n' + '\0';
 
     }
@@ -54,7 +54,7 @@ std::string StompEncoderDecoder::toString(Message* m) {
         toReturn = "DISCONNECT\nreceipt:" + m->getreciptid() + '\n'  + '\n' + '\0';
     }
     if (m->getType() == status){
-        std::string bodyToSend =user_->getName();
+        std::string bodyToSend =user_->getName() + ":" ;
         Inventory* inv =  user_->getInv();
         bodyToSend = bodyToSend + inv->getStatus(m->getDestination());
         toReturn = "SEND\ndestination:" + m->getDestination() +'\n' + '\n'  + bodyToSend + '\n' + '\0';
