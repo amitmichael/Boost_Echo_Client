@@ -8,7 +8,7 @@
 #include "../include/MsgInfo.h"
 
 
-ClientKeyboard::ClientKeyboard(ConnectionHandler* handler,MsgInfo* info,User* user,std::mutex & _mutex) : handler_(handler),info_(info),user_(user),_mutex(_mutex){};
+ClientKeyboard::ClientKeyboard(ConnectionHandler* handler,MsgInfo* info,User* user,std::mutex & _mutex) : handler_(handler),host_(),port_(),info_(info),user_(user),_mutex(_mutex){};
 
 
 
@@ -22,6 +22,13 @@ void ClientKeyboard::run() {
         std::string line(buf);
         Message* msg = enddec.parseMsgFromKeyboard(line);
         msg->execute();
+        if (msg->getType() == returnn) {
+            std::string out = msg->getToSend();
+            if (out.size() > 0) { //send msg that the user has the book
+                std::cout << out << std::endl;
+                handler_->sendBytes(out.c_str(), out.length());
+            }
+        }
         info_->addToreceiptPerMsgMap(stoi(msg->getreciptid()), msg);
         std::string encoded = enddec.encode(msg);
         std::cout << encoded << std::endl;

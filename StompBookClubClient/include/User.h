@@ -27,17 +27,19 @@ public:
     bool* isConnected();
     bool* shouldTerminate();
     void setTermination(bool toTerminate);
-private:
+    void moveToloaned(std::string borrowed,std::string genere);
+    std::vector<std::string>* getWishList() ;
 
+private:
+    std::map<std::string,int> genreSubIMmap;
+    bool* connected;
+    bool* shouldTerminate_;
     std::string name_;
-    bool Default ;
+    bool Default;
     Inventory* inventory_;
     int subscriptionIdCounter;
     int receiptId;
-
-    bool* connected;
-    bool* shouldTerminate_;
-    std::map<std::string,int> genreSubIMmap;
+    std::vector<std::string> wishList;
 
 
 };

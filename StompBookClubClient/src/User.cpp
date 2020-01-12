@@ -15,7 +15,7 @@ std::string User::getName(){
     return name_;
 }
 
-User::User(bool* connected, bool* shouldTerminate):genreSubIMmap(),connected(connected),shouldTerminate_(shouldTerminate){
+User::User(bool* connected, bool* shouldTerminate):genreSubIMmap(),connected(connected),shouldTerminate_(shouldTerminate),name_(),Default(),inventory_(),subscriptionIdCounter(),receiptId(),wishList(){
     Default=true;
     name_ = "defaultUser";
     inventory_ = new Inventory(name_);
@@ -77,4 +77,51 @@ void User::setName(std::string name){
 void User::setTermination(bool toTerminate){
     *shouldTerminate()=toTerminate;
 }
+
+std::vector<std::string>* User::getWishList() {
+    return &wishList;
+}
+
+
+void User::moveToloaned(std::string borrowed,std::string genere) {
+    Inventory *inv = getInv();
+    Book *book;
+    //// books/////
+    bool found = false;
+    if (inv->getBooks()->count(genere) > 0) {
+        std::vector<Book *> *vec = inv->getBooks()->at(genere);
+        for (int i = 0; !found & i < vec->size(); i++) {
+            book = vec->at(i);
+            if (book->getName() == borrowed) {
+                found = true;
+                vec->erase(vec->begin() + i);
+            }
+        }
+    }
+    //// borrowed ////
+    if (inv->getBorrowedBooks()->count(genere) > 0) {
+        std::vector<Book *> *vec1 = inv->getBorrowedBooks()->at(genere);
+        for (int i = 0; !found & i < vec1->size(); i++) {
+            book = vec1->at(i);
+            if (book->getName() == borrowed) {
+                found = true;
+                vec1->erase(vec1->begin() + i);
+
+            }
+        }
+    }
+
+    if (found) { // add to loaned
+        if (inv->getLoanedBooks()->count(genere) > 0) {
+            inv->getLoanedBooks()->at(genere)->push_back(book);
+        } else {
+            std::vector<Book *> *vec2 = new std::vector<Book *>;
+            inv->getLoanedBooks()->insert(std::make_pair(genere, vec2));
+            inv->getLoanedBooks()->at(genere)->push_back(book);
+        }
+    }
+}
+
+
+
 

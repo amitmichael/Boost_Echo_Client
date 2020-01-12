@@ -8,7 +8,7 @@
 
 
 
-ClientSocket::ClientSocket(ConnectionHandler* handler,MsgInfo* info,User* user,std::mutex & _mutex): handler_(handler),info_(info),user_(user),_mutex(_mutex){};
+ClientSocket::ClientSocket(ConnectionHandler* handler,MsgInfo* info,User* user,std::mutex & _mutex): handler_(handler),host_(),port_(),info_(info),user_(user),_mutex(_mutex){};
 
 void ClientSocket::connect() {
 
@@ -38,10 +38,9 @@ void ClientSocket::run() {
                     msg->loadFromBefore(before);
                 }
                 msg->execute();
-                if (msg->getType()==borrow){
+                if (msg->getType()==CheckIfCanLoan){
                     std::string out=msg->getToSend();
                     if (out.size()>0){ //send msg that the user has the book
-                        //info_->addToreceiptPerMsgMap(stoi(msg->getreciptid()), msg);
                         std::cout << out << std::endl;
                         handler_->sendBytes(out.c_str(), out.length());
                     }
@@ -50,6 +49,10 @@ void ClientSocket::run() {
                     std::string encoded = enddec.encode(msg);
                     std::cout << encoded << std::endl;
                     handler_->sendBytes(encoded.c_str(), encoded.length());
+                }
+                if (msg->toBorrow.size()>0){//sends the msg Taking
+                    std::cout << msg->toBorrow << std::endl;
+                    handler_->sendBytes(msg->toBorrow.c_str(), msg->toBorrow.length());
                 }
                 info_->addToreceiptPerMsgMap(stoi(msg->getreciptid()), msg);
                 std::cout << enddec.toString(msg) << std::endl;

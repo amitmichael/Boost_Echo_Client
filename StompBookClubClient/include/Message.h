@@ -12,7 +12,8 @@
 enum MessageType {login,
     join,
     add,
-    borrow,
+    wantToBorrow,
+    CheckIfCanLoan,
     exitt, //double t
     returnn, //double n
     status,
@@ -47,13 +48,14 @@ public:
     void loadFromBefore(Message* before);
     User* getUser();
     std::string getToSend();
-
+    std::string toBorrow="";
+    std::string getToBorrow();
 
 
 private:
     MessageType type;
     std::string msgID;
-    int version;
+    double version;
     std::string body;
     MessageType beforeType;
     std::map<std::string, MessageType> mapMessageType;
