@@ -100,7 +100,7 @@ void Message::execute(){
                        }
                    }
                    if (found) {
-                       user_->getInv()->returnBook(curr, destination, user_->getName(), it);
+                       user_->getInv()->returnBook(curr, destination, user_->getName(), it-1);
                    }
 
                    // if i am the owner return to books

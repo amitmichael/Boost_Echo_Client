@@ -45,7 +45,8 @@ std::string StompEncoderDecoder::toString(Message* m) {
 
     }
     if (m->getType() == returnn){
-        toReturn = "SEND\ndestination:" + m->getDestination() +'\n' + '\n'  + "Returning " + m->getBookName() + " to TBD" + '\n' + '\0';
+        //Book* book = get
+       // toReturn = "SEND\ndestination:" + m->getDestination() +'\n' + '\n'  + "Returning " + m->getBookName() + " to " + "" + '\n' + '\0';
     }
     if (m->getType() == status){
         toReturn = "SEND\ndestination:" + m->getDestination() +'\n' + '\n'  + "book status"  + '\n' + '\0';
