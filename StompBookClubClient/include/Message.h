@@ -53,7 +53,7 @@ public:
 private:
     MessageType type;
     std::string msgID;
-    int version;
+    double version;
     std::string body;
     MessageType beforeType;
     std::map<std::string, MessageType> mapMessageType;

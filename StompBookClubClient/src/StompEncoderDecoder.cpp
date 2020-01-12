@@ -119,7 +119,7 @@ Message* StompEncoderDecoder::parseMsgFromSocket(std::string msg){
         if (emptyline){
             index++;
         }
-        if (index==1){ //headers parse
+        else if (index==1){ //headers parse
             if(endline){ //checks if it is an empty line and skip it
                 if (x=='\n'){
                  index++;
@@ -135,10 +135,12 @@ Message* StompEncoderDecoder::parseMsgFromSocket(std::string msg){
             }
             else{ line=line+x;}
         }
-        if (index==2){
-            if (x=='\n'){
+        else if (index==2){
+            if (x=='\n'|x=='^'){
                 parsedMsg->addNext(line,5);
+                return parsedMsg;
             }
+            else{ line=line+x;}
         }
     }
     return parsedMsg;

@@ -60,11 +60,21 @@ void Message::execute(){
            else if(beforeType==add){
                std::cout<<""+userName+" has added the book "+bookName<<std::endl;
            }
+           else if (body.find("wish to borrow")!=std::string::npos){
+               type=borrow;
+           }
+           else if (body.find("Taking")!=std::string::npos){
+               int pos=body.find("from");
+               std::string lender=body.substr(pos+5);
+               if (lender==userName){
+                   Inventory* inv =  user_->getInv();
+               }
+           }
        }
        if (type==borrow){
            Inventory* inv =  user_->getInv();
            if (inv->hasBook(bookName,destination)){
-               toSend=""+user_->getName()+" has the book "+bookName;
+               toSend=toSend="SEND\ndestination:"+destination+'\n' + '\n'+"user "+user_->getName()+" has the book "+bookName+'\n' + '\0';
            }
        }
        if (type == status){
