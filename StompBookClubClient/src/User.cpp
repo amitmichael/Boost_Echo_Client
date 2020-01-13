@@ -6,13 +6,19 @@
 
 
 User::~User() {
+    clear();
+}
+void User::clear() {
     delete(inventory_);
     delete(connected);
     delete(shouldTerminate_);
+    for (auto it = wishList.begin(); it!=wishList.end();it++){ //delete all books
+          // delete(it);// delete all books in the vector
+        }
 }
-void User::copy(const bool* other_connected,const bool* other_shouldTerminated, std::string other_name, bool other_Default,const Inventory* other_inventory,int other_subscriptionIdCounter,int other_receiptId,std::vector<std::string> other_wishList){
-    connected=other_connected;
-    shouldTerminate_=other_shouldTerminated;
+void User::copy( bool* other_connected, bool* other_shouldTerminated, std::string other_name, bool other_Default,const Inventory* other_inventory,int other_subscriptionIdCounter,int other_receiptId,std::vector<std::string> other_wishList){
+    connected=new bool(other_connected);
+    shouldTerminate_=new bool(other_connected);
     Default=other_Default;
     name_ = other_name;
     inventory_ = new Inventory(other_name);
@@ -24,9 +30,17 @@ void User::copy(const bool* other_connected,const bool* other_shouldTerminated, 
     }
 }
 
-User::User(const User &other) {
-
+User::User(const User &other) { // copy constructor
+copy(other.connected,other.shouldTerminate_,other.name_,other.Default,other.inventory_,other.subscriptionIdCounter,other.receiptId,other.wishList);
 }
+User& User::operator=(const User &other){//move assignment
+    if (this!=&other){
+       this->clear();
+        copy(other.connected,other.shouldTerminate_,other.name_,other.Default,other.inventory_,other.subscriptionIdCounter,other.receiptId,other.wishList);
+    }
+    return *this;
+}
+
 std::string User::getName(){
     return name_;
 }
@@ -40,23 +54,15 @@ User::User(bool* connected, bool* shouldTerminate):genreSubIMmap(),connected(con
 
 };
 
-const bool* User::isConnected(){
+ bool* User::isConnected(){
     return connected;
 }
 
-const bool* User::shouldTerminate(){
+ bool*  User::shouldTerminate(){
     return shouldTerminate_;
 }
 
-
-
-bool User::isDefault(){
-    return Default;
-}
-
-
-
-const Inventory* User::getInv(){
+ Inventory* User::getInv(){
     return inventory_;
 }
 
@@ -90,9 +96,7 @@ int User::getSubIdByGenre(std::string genre){
 void User::setName(std::string name){
     name_ = name;
 }
-void User::setTermination(bool toTerminate){
-    *shouldTerminate()=toTerminate;
-}
+
 
 std::vector<std::string>* User::getWishList() {
     return &wishList;
@@ -100,8 +104,8 @@ std::vector<std::string>* User::getWishList() {
 
 
 void User::moveToloaned(std::string borrowed,std::string genere) {
-    Inventory *inv = getInv();
-    Book *book;
+     Inventory *inv = getInv();
+     Book *book;
     //// books/////
     bool found = false;
     if (inv->getBooks()->count(genere) > 0) {

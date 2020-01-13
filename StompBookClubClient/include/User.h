@@ -15,29 +15,29 @@ class User {
 public:
     User(bool* connected, bool* shouldTerminate);
     User(const User &other);
+    User& operator=(const User &other);
     ~User();
+    void copy(bool* connected,bool* shouldTerminated, std::string name, bool Default,const Inventory* inventory_,int subscriptionIdCounter,int receiptId,std::vector<std::string> wishList);
+    void clear();
     std::string getName();
-    bool isDefault();
-    const Inventory* getInv();
+    Inventory* getInv();
     int getAndIncrementSubscriptionId();
     int getAndIncrementreceiptId();
     void addToGenreSubIdmap(std::string genre ,int id);
     void removeFromenreSubIdmap(std::string genre);
     int getSubIdByGenre(std::string genre);
     void setName(std::string name);
-    const bool* isConnected();
-    const bool* shouldTerminate();
-    void setTermination(bool toTerminate);
+    bool*  isConnected();
+    bool*  shouldTerminate();
     void moveToloaned(std::string borrowed,std::string genere);
     std::vector<std::string>* getWishList() ;
-    void copy(const bool* connected,const bool* shouldTerminated, std::string name, bool Default,const Inventory* inventory_,int subscriptionIdCounter,int receiptId,std::vector<std::string> wishList);
 private:
     std::map<std::string,int> genreSubIMmap;
-    const bool* connected;
-    const bool* shouldTerminate_;
+    bool* connected;
+    bool* shouldTerminate_;
     std::string name_;
     bool Default;
-    const Inventory* inventory_;
+    Inventory* inventory_;
     int subscriptionIdCounter;
     int receiptId;
     std::vector<std::string> wishList;
