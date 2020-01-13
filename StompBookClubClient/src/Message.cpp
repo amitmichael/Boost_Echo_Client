@@ -302,6 +302,7 @@ void Message::addNext(std::string msg,int index) {
                 msg = msg.substr(i + 1);
                 port = stoi(msg);
             }
+        }
 
 
             ////// second add////////////////////////////
@@ -312,6 +313,7 @@ void Message::addNext(std::string msg,int index) {
                 if (type == add || type == wantToBorrow || type == returnn) {
                     bookName = msg;
                 }
+            }
 
                 ////// third add////////////////////////////
                 if (index == 3) {
@@ -361,8 +363,6 @@ void Message::addNext(std::string msg,int index) {
                     body = msg;
                 }
             }
-        }
-    }
 }
 
 

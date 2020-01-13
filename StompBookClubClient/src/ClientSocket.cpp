@@ -49,19 +49,17 @@ void ClientSocket::run() {
             if (msg->getType() == error){
                     msg->loaderror(toAdd);
                     toAdd = "";
+                    msg->execute();
                     handler_->close();// close the connection due to error
                     *user_->isConnected() = false;
             }
-            if (msg != nullptr) {
-                if (msg->getType()!=error) {
+            else if (msg != nullptr) {
                     int rid = stoi(msg->getreciptid());
                     if (rid > 0) {
                         Message *before = info_->getMsgByReceiptId(rid);
                         msg->loadFromBefore(before);
                     }
-                } else{ // type is error
 
-                }
                 msg->execute();
                 if (msg->getType()==CheckIfCanLoan){
                     std::string out=msg->getToSend();
