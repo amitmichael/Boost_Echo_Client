@@ -40,7 +40,7 @@ void ClientSocket::run() {
     StompEncoderDecoder enddec(user_);
     while (!*user_->shouldTerminate() ) {
         if (*user_->isConnected()) {
-            std::lock_guard<std::mutex> lock(*_mutex);
+            //std::lock_guard<std::mutex> lock(*_mutex);
             std::string toAdd = "";
             while (handler_->getLine(toAdd) != false) {
             }

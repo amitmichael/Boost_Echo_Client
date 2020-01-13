@@ -104,7 +104,7 @@ void Message::loaderror(std::string msg) {
         if (line == "\0") {
             end_ = true;
 
-        } else if (index == 0 | index == 1) {
+        } else if (index == 0 || index == 1) {
             addNext(line, 4);
         } else if (body.size() > 0) {
             body = body + '\n' + line;
@@ -225,7 +225,7 @@ void Message::execute(){
                std::vector<std::string> *vec=  user_->getWishList();
                bool found = false;
                std::string book;
-                 for(auto it = vec->begin();!found& it!= vec->end(); it++) {
+                 for(auto it = vec->begin();!found&& it!= vec->end(); it++) {
                      book = *it;
                      if (book == bookToBorrow) {
                          found = true;
@@ -287,77 +287,80 @@ void Message::addFirst(std::string msg){
 
 
 
-void Message::addNext(std::string msg,int index){
+void Message::addNext(std::string msg,int index) {
     if (type != invalid) {
 
-    ////// first add////////////////////////////
-    if (index==1){
-        if ( type == join|| type ==add || type == wantToBorrow || type ==returnn || type == status|| type == exitt){
-            destination =msg;
-        }
-        if (type == login){
-            int i = msg.find(':');
-            host = msg.substr(0,i);
-            msg = msg.substr(i+1);
-            port = stoi(msg);
-        }
-
-
-    ////// second add////////////////////////////
-    if (index ==2){
-        if ( type ==login){
-            userName = msg;
-        }
-        if (type ==add || type==wantToBorrow || type == returnn){
-            bookName = msg;
-        }
-
-        ////// third add////////////////////////////
-        if (index == 3) {
+        ////// first add////////////////////////////
+        if (index == 1) {
+            if (type == join || type == add || type == wantToBorrow || type == returnn || type == status ||
+                type == exitt) {
+                destination = msg;
+            }
             if (type == login) {
-                password = msg;
-            }
-
-        }
-        ///////load header////////
-        if (index == 4) {
-            int pos = msg.find(":");
-            std::string header = msg.substr(0, pos);
-            if (header == "receipt-id") {
-                reciptid = msg.substr(pos + 1);
-            } else if (header == "subscription") {
-                subscriptionId = msg.substr(pos + 1);
-            } else if (header == "destination") {
-                destination = msg.substr(pos + 1);
-            } else if (header == "version") {
-                version = stoi(msg.substr(pos + 1));
-            } else if (header == "Message-id") {
-                msgID = msg.substr(pos + 1);
-            } else if (header == "message") {
-                errormessage = msg.substr(pos + 1);
+                int i = msg.find(':');
+                host = msg.substr(0, i);
+                msg = msg.substr(i + 1);
+                port = stoi(msg);
             }
 
 
-        }
+            ////// second add////////////////////////////
+            if (index == 2) {
+                if (type == login) {
+                    userName = msg;
+                }
+                if (type == add || type == wantToBorrow || type == returnn) {
+                    bookName = msg;
+                }
 
-        ///////////set body///////
-        if (index == 5) {
-            body = msg;
-            if (msg.find("added the book") != std::string::npos) {
-                int pos = msg.find("book");
-                bookName = msg.substr(pos + 5);
+                ////// third add////////////////////////////
+                if (index == 3) {
+                    if (type == login) {
+                        password = msg;
+                    }
+
+                }
+                ///////load header////////
+                if (index == 4) {
+                    int pos = msg.find(":");
+                    std::string header = msg.substr(0, pos);
+                    if (header == "receipt-id") {
+                        reciptid = msg.substr(pos + 1);
+                    } else if (header == "subscription") {
+                        subscriptionId = msg.substr(pos + 1);
+                    } else if (header == "destination") {
+                        destination = msg.substr(pos + 1);
+                    } else if (header == "version") {
+                        version = stoi(msg.substr(pos + 1));
+                    } else if (header == "Message-id") {
+                        msgID = msg.substr(pos + 1);
+                    } else if (header == "message") {
+                        errormessage = msg.substr(pos + 1);
+                    }
+
+
+                }
+
+                ///////////set body///////
+                if (index == 5) {
+                    body = msg;
+                    if (msg.find("added the book") != std::string::npos) {
+                        int pos = msg.find("book");
+                        bookName = msg.substr(pos + 5);
+                    }
+                    if (msg.find("wish to borrow") != std::string::npos) {
+                        type = CheckIfCanLoan;
+                        int i = msg.find("borrow");
+                        bookName = msg.substr(i + 7);
+                    }
+                    if (msg.find("book status") != std::string::npos) {
+                        type = status;
+                    }
+                }
+                if (index == 6) {
+                    body = msg;
+                }
             }
-            if (msg.find("wish to borrow") != std::string::npos) {
-                type = CheckIfCanLoan;
-                int i = msg.find("borrow");
-                bookName = msg.substr(i + 7);
-            }
-            if (msg.find("book status") != std::string::npos) {
-                type = status;
-            }
-        }
-        if (index == 6) {
-            body = msg;
         }
     }
 }
