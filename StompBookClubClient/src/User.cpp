@@ -30,7 +30,7 @@ void User::copy( bool* other_connected, bool* other_shouldTerminated, std::strin
     }
 }
 
-User::User(const User &other) { // copy constructor
+User::User(const User &other):genreSubIMmap(),connected(),shouldTerminate_(),name_(),Default(),inventory_(),subscriptionIdCounter(),receiptId(),wishList() { // copy constructor
 copy(other.connected,other.shouldTerminate_,other.name_,other.Default,other.inventory_,other.subscriptionIdCounter,other.receiptId,other.wishList);
 }
 User& User::operator=(const User &other){//move assignment
@@ -110,7 +110,7 @@ void User::moveToloaned(std::string borrowed,std::string genere) {
     bool found = false;
     if (inv->getBooks()->count(genere) > 0) {
         std::vector<Book *> *vec = inv->getBooks()->at(genere);
-        for (int i = 0; !found & i < vec->size(); i++) {
+        for (unsigned int i = 0; !found && i < vec->size(); i++) {
             book = vec->at(i);
             if (book->getName() == borrowed) {
                 found = true;
@@ -121,7 +121,7 @@ void User::moveToloaned(std::string borrowed,std::string genere) {
     //// borrowed ////
     if (inv->getBorrowedBooks()->count(genere) > 0) {
         std::vector<Book *> *vec1 = inv->getBorrowedBooks()->at(genere);
-        for (int i = 0; !found & i < vec1->size(); i++) {
+        for (unsigned int i = 0; !found && i < vec1->size(); i++) {
             book = vec1->at(i);
             if (book->getName() == borrowed) {
                 found = true;

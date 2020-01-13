@@ -33,7 +33,7 @@ Inventory::~Inventory(){
 
 
 Inventory::Inventory(std::string username):username_(username),books_(),borrowedBooks_(),loanedBooks_(){}
-Inventory::Inventory(const Inventory &other) {
+Inventory::Inventory(const Inventory &other):username_(),books_(),borrowedBooks_(),loanedBooks_() {
     copy(other.username_,other.books_,other.borrowedBooks_,other.loanedBooks_);
 }
 void Inventory::copy(std::string other_username,std::map<std::string,std::vector<Book*>*> other_books,std::map<std::string,std::vector<Book*>*> other_borrowedBooks,
@@ -92,7 +92,7 @@ std::map<std::string,std::vector<Book*>*>* Inventory::getLoanedBooks()  {
     bool found = false;
 
 
-        if(getBooks()->count(genere)>0 & !found){
+        if(getBooks()->count(genere)>0 && !found){
             std::vector<Book*>* vec=  books_.at(genere);
             for(auto it = vec->begin(); it!= vec->end(); it++){
                 Book* book = *it;
@@ -102,7 +102,7 @@ std::map<std::string,std::vector<Book*>*>* Inventory::getLoanedBooks()  {
             }
         }
 
-        if(getBorrowedBooks()->count(genere)>0 & !found){
+        if(getBorrowedBooks()->count(genere)>0 && !found){
             std::vector<Book*>* vec=  borrowedBooks_.at(genere);
             for(auto it = vec->begin(); it!= vec->end(); it++){
                 Book* book = *it;
@@ -129,7 +129,7 @@ std::map<std::string,std::vector<Book*>*>* Inventory::getLoanedBooks()  {
 Book* Inventory::getAndRemoveBorrowedBooks(std::string bookName,std::string genre){
         std::vector<Book *>* vec = borrowedBooks_.at(genre);
         Book *book;
-        for (int i = 0; i < vec->size(); i++) {
+        for (unsigned int i = 0; i < vec->size(); i++) {
             book = vec->at(i);
             if (book->getName() == bookName) {
                 vec->erase(vec->begin()+i);
