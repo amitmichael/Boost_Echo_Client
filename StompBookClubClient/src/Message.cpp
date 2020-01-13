@@ -50,7 +50,6 @@ void Message::execute(){
            std::cout<<"Login successful"<<std::endl;
        }
 
-
        if (type==wantToBorrow){ // this want to borrow a book
            user_->getWishList()->push_back(bookName);
        }
@@ -113,14 +112,19 @@ void Message::execute(){
                std::string bookToBorrow=body.substr((pos+4));
                std::string loaner=body.substr(0,pos-1);
                std::vector<std::string> *vec=  user_->getWishList();
-                 for(auto it = vec->begin(); it!= vec->end(); it++) {
-                     std::string book = *it;
+               bool found = false;
+               std::string book;
+                 for(auto it = vec->begin();!found& it!= vec->end(); it++) {
+                     book = *it;
                      if (book == bookToBorrow) {
-                         Book* loanedBook = new Book(book,loaner,destination);
-                         Inventory* inv =  user_->getInv();
-                         inv->addLoanedBook(loanedBook);
-                         toBorrow="SEND\ndestination:"+destination+'\n' + '\n'+"Taking "+loanedBook->getName()+" from "+loaner+'\n' +'\0';
+                         found = true;
                      }
+                 }
+                 if (found){
+                     Book* loanedBook = new Book(book,loaner,destination);
+                     Inventory* inv =  user_->getInv();
+                     inv->addLoanedBook(loanedBook);
+                     toBorrow="SEND\ndestination:"+destination+'\n' + '\n'+"Taking "+loanedBook->getName()+" from "+loaner+'\n' +'\0';
                  }
            }
            else if (body.find("Taking")!=std::string::npos){
