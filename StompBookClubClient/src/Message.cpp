@@ -13,6 +13,33 @@ Message::Message(User* user):type(),msgID(),version(),body(),beforeType(),mapMes
     reciptid = "-1";
 
 }
+Message::Message(const Message &other):type(),msgID(),version(),body(),beforeType(),mapMessageType(),destination(),command(),bookName(),userName(),host(),port(),password(),user_(),subscriptionId(),reciptid(),toSend(){
+    copy(other.type,other.msgID,other.version,other.body,other.beforeType,other.mapMessageType,other.destination,other.command,other.bookName,other.userName,other.host,other.port,other.password,other.user_,other.subscriptionId,other.reciptid,other.toSend);
+}
+Message& Message::operator=(const Message &other){
+    if (this!=&other){
+        copy(other.type,other.msgID,other.version,other.body,other.beforeType,other.mapMessageType,other.destination,other.command,other.bookName,other.userName,other.host,other.port,other.password,other.user_,other.subscriptionId,other.reciptid,other.toSend);
+    }
+    return *this;
+}
+void Message::copy(MessageType other_type,std::string other_msgID,double other_version,std::string other_body,MessageType other_beforeType,std::map<std::string, MessageType> other_mapMessageType,std::string other_destination,std::string other_command,std::string other_bookName,std::string other_userName,std::string other_host,int other_port,std::string other_password,User* other_user_,std::string other_subscriptionId,std::string other_reciptid,std::string other_toSend){
+    type=other_type;
+    msgID=other_msgID;
+    version=other_version;
+    body=other_body;
+    beforeType=other_beforeType;
+    mapMessageType=other_mapMessageType;
+    destination=other_destination;
+    command=other_command;
+    bookName=other_bookName;
+    userName=other_userName;
+    subscriptionId=other_subscriptionId;
+    reciptid=other_reciptid;
+    toSend=other_toSend;
+}
+
+
+
 
 bool Message::end(){
     return end_;
@@ -177,8 +204,8 @@ void Message::execute(){
                    std::vector<Book*>* vec = user_->getInv()->getLoanedBooks()->at(destination);
                    bool found = false;
                    Book* curr;
-                   int it =0;
-                   for (it = 0;!found & it < vec->size(); it ++) {
+                   unsigned int it =0;
+                   for (it = 0;!found && it < vec->size(); it ++) {
                        curr = vec->at(it);
                        if (curr->getName() == bookName){
                            found =true;
@@ -187,7 +214,6 @@ void Message::execute(){
                    if (found) {
                        user_->getInv()->returnBook(curr, destination, user_->getName(), it-1);
                    }
-
 
                }
            }
@@ -216,7 +242,6 @@ void Message::execute(){
                int pos=body.find("from");
                std::string lender=body.substr(pos+5);
                if (lender==userName){
-                   Inventory* inv =  user_->getInv();
                    int posa=body.find("Taking") + 7;
                    int posb=body.find("from");
                    std::string borrowed=body.substr(posa,posb-posa-1);
@@ -264,27 +289,27 @@ void Message::addFirst(std::string msg){
 
 void Message::addNext(std::string msg,int index){
     if (type != invalid) {
-        ////// first add////////////////////////////
-        if (index == 1) {
-            if (type == join | type == add | type == wantToBorrow | type == returnn | type == status | type == exitt) {
-                destination = msg;
-            }
-            if (type == login) {
-                int i = msg.find(':');
-                host = msg.substr(0, i);
-                msg = msg.substr(i + 1);
-                port = stoi(msg);
-            }
+
+    ////// first add////////////////////////////
+    if (index==1){
+        if ( type == join|| type ==add || type == wantToBorrow || type ==returnn || type == status|| type == exitt){
+            destination =msg;
+        }
+        if (type == login){
+            int i = msg.find(':');
+            host = msg.substr(0,i);
+            msg = msg.substr(i+1);
+            port = stoi(msg);
         }
 
-        ////// second add////////////////////////////
-        if (index == 2) {
-            if (type == login) {
-                userName = msg;
-            }
-            if (type == add | type == wantToBorrow | type == returnn) {
-                bookName = msg;
-            }
+
+    ////// second add////////////////////////////
+    if (index ==2){
+        if ( type ==login){
+            userName = msg;
+        }
+        if (type ==add || type==wantToBorrow || type == returnn){
+            bookName = msg;
         }
 
         ////// third add////////////////////////////
@@ -379,14 +404,9 @@ std::string Message::getSubscriptionId(){
 std::string Message::getreciptid(){
     return reciptid;
 }
-void Message::setBody(std::string body_){
-    body=body_;
-}
+
 std::string Message::getToSend(){
     return toSend;
-}
-std::string Message::getToBorrow(){
-    return toBorrow;
 }
 
 void Message::loadMessageTypeMap(){

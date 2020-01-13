@@ -33,7 +33,26 @@ Inventory::~Inventory(){
 
 
 Inventory::Inventory(std::string username):username_(username),books_(),borrowedBooks_(),loanedBooks_(){}
+Inventory::Inventory(const Inventory &other) {
+    copy(other.username_,other.books_,other.borrowedBooks_,other.loanedBooks_);
+}
+void Inventory::copy(std::string other_username,std::map<std::string,std::vector<Book*>*> other_books,std::map<std::string,std::vector<Book*>*> other_borrowedBooks,
+                     std::map<std::string,std::vector<Book*>*> other_loanedBooks){
+    username_=other_username;
+    books_.clear(); // memory leak ??
+    for (auto it = other_books.begin(); it!=other_books.end();it++){ //delete all books
+        books_.insert(*it);
+    }
+    borrowedBooks_.clear();// memory leak ??
+    for (auto it = other_borrowedBooks.begin(); it!=other_borrowedBooks.end();it++){ //delete all books
+        borrowedBooks_.insert(*it);
+    }
+    loanedBooks_.clear();// memory leak ??
+    for (auto it = other_loanedBooks.begin(); it!=other_loanedBooks.end();it++){ //delete all books
+        loanedBooks_.insert(*it);
+    }
 
+}
     void Inventory::addBook(Book* book){
         std::string genre = book->getGenre();
         if (books_.find(genre) != books_.end()){ //genre exist
@@ -46,7 +65,7 @@ Inventory::Inventory(std::string username):username_(username),books_(),borrowed
         }
     }
 
-void Inventory::addLoanedBook(Book* book){
+void Inventory::addLoanedBook(Book* book) {
     std::string genre = book->getGenre();
     if (borrowedBooks_.count(genre) > 0){ //genre exist
         borrowedBooks_.at(genre)->push_back(book);
@@ -58,12 +77,16 @@ void Inventory::addLoanedBook(Book* book){
     }
 }
 
-std::map<std::string,std::vector<Book*>*>* Inventory::getBooks(){
+std::map<std::string,std::vector<Book*>*>* Inventory::getBooks() {
     return &books_;
 }
 std::map<std::string,std::vector<Book*>*>* Inventory::getBorrowedBooks(){
     return &borrowedBooks_;
 }
+std::map<std::string,std::vector<Book*>*>* Inventory::getLoanedBooks()  {
+    return &loanedBooks_;
+}
+
 
     bool Inventory::hasBook(std::string bookname,std::string genere){
     bool found = false;
@@ -88,10 +111,9 @@ std::map<std::string,std::vector<Book*>*>* Inventory::getBorrowedBooks(){
                 }
             }
         }
-
         return found;
-
     }
+
     void Inventory::returnBook(Book* book,std::string genre,std::string userName,int index){
     if (book->getOwner() == userName){ // the book is mine return to books
         books_.at(genre)->push_back(book);
@@ -116,16 +138,12 @@ Book* Inventory::getAndRemoveBorrowedBooks(std::string bookName,std::string genr
         }
         return nullptr;
     }
-std::map<std::string,std::vector<Book*>*>* Inventory::getLoanedBooks(){
-    return &loanedBooks_;
-}
 
 
 
 
-std::string Inventory::getStatus(std::string genre){
+ std::string Inventory::getStatus(std::string genre) {
         std::string toReturn;
-
         if (books_.count(genre) > 0) {
             std::vector<Book *> *vec = books_.at(genre);
             if (vec != nullptr) {

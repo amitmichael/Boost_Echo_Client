@@ -8,8 +8,21 @@
 #include "../include/MsgInfo.h"
 
 
-ClientKeyboard::ClientKeyboard(ConnectionHandler* handler,MsgInfo* info,User* user,std::mutex & _mutex) : handler_(handler),host_(),port_(),info_(info),user_(user),_mutex(_mutex){};
-
+ClientKeyboard::ClientKeyboard(ConnectionHandler* handler,MsgInfo* info,User* user,std::mutex * _mutex) : handler_(handler),host_(),port_(),info_(info),user_(user),_mutex(_mutex){};
+ClientKeyboard::ClientKeyboard(const ClientKeyboard &other){
+    copy (other.handler_,other.info_,other.user_,other._mutex) ;
+}
+ClientKeyboard& ClientKeyboard::operator=(const ClientKeyboard &other){
+    if (this!=&other){
+        copy (other.handler_,other.info_,other.user_,other._mutex) ;
+    }
+    return *this;
+}
+void ClientKeyboard::copy (ConnectionHandler* other_handler,MsgInfo* other_info,User* other_user,std::mutex * other_mutex){
+    handler_=other_handler;
+    info_=other_info;
+    _mutex=other_mutex;
+}
 
 
 void ClientKeyboard::run() {

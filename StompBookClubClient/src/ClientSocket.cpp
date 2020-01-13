@@ -8,8 +8,22 @@
 
 
 
-ClientSocket::ClientSocket(ConnectionHandler* handler,MsgInfo* info,User* user,std::mutex & _mutex): handler_(handler),host_(),port_(),info_(info),user_(user),_mutex(_mutex){};
+ClientSocket::ClientSocket(ConnectionHandler* handler,MsgInfo* info,User* user,std::mutex * _mutex): handler_(handler),host_(),port_(),info_(info),user_(user),_mutex(_mutex){};
 
+ClientSocket::ClientSocket(const ClientSocket &other){
+    copy (other.handler_,other.info_,other.user_,other._mutex) ;
+}
+ClientSocket& ClientSocket::operator=(const ClientSocket &other){
+    if (this!=&other){
+        copy (other.handler_,other.info_,other.user_,other._mutex) ;
+    }
+    return *this;
+}
+void ClientSocket::copy (ConnectionHandler* other_handler,MsgInfo* other_info,User* other_user,std::mutex * other_mutex){
+    handler_=other_handler;
+    info_=other_info;
+    _mutex=other_mutex;
+}
 void ClientSocket::connect() {
 
     if (!handler_->connect()) {
@@ -26,7 +40,7 @@ void ClientSocket::run() {
     StompEncoderDecoder enddec(user_);
     while (!*user_->shouldTerminate() ) {
         if (*user_->isConnected()) {
-            std::lock_guard<std::mutex> lock(_mutex);
+            std::lock_guard<std::mutex> lock(*_mutex);
             std::string toAdd = "";
             while (handler_->getLine(toAdd) != false) {
             }

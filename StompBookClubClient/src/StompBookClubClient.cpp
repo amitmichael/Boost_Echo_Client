@@ -20,7 +20,7 @@ int main (int argc, char *argv[]) {
 
 
     /// variables
-    std::mutex _mutex;
+    std::mutex *_mutex;
     ConnectionHandler* connectionHandler;//
     bool *connected = new bool(false);
     bool *shouldTerminate = new bool(false);

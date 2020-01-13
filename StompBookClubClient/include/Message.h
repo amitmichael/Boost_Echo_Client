@@ -30,6 +30,9 @@ class Message {
 public:
     Message(User* user);
     Message(std::string);
+    Message(const Message &other);
+    Message& operator=(const Message &other);
+    void copy(MessageType other_type,std::string other_msgID,double other_version,std::string other_body,MessageType other_beforeType,std::map<std::string, MessageType> other_mapMessageType,std::string other_destination,std::string other_command,std::string other_bookName,std::string other_userName,std::string other_host,int other_port,std::string other_password,User* other_user_,std::string other_subscriptionId,std::string other_reciptid,std::string other_toSend);
     MessageType getType();
     void loadMessageTypeMap();
     void addFirst(std::string);
@@ -44,12 +47,10 @@ public:
     std::string getSubscriptionId();
     std::string getreciptid();
     void clear();
-    void setBody(std::string body_);
     void loadFromBefore(Message* before);
     User* getUser();
     std::string getToSend();
     std::string toBorrow="";
-    std::string getToBorrow();
     bool end();
     void loaderror(std::string line);
 
