@@ -31,31 +31,42 @@ void ClientSocket::run() {
             while (handler_->getLine(toAdd) != false) {
             }
             Message *msg = enddec.parseMsgFromSocket(toAdd);
+            /// error case////
+            if (msg->getType() == error){
+                    msg->loaderror(toAdd);
+                    toAdd = "";
+                    handler_->close();// close the connection due to error
+                    *user_->isConnected() = false;
+            }
             if (msg != nullptr) {
-                int rid = stoi(msg->getreciptid());
-                if (rid > 0) {
-                    Message *before = info_->getMsgByReceiptId(rid);
-                    msg->loadFromBefore(before);
+                if (msg->getType()!=error) {
+                    int rid = stoi(msg->getreciptid());
+                    if (rid > 0) {
+                        Message *before = info_->getMsgByReceiptId(rid);
+                        msg->loadFromBefore(before);
+                    }
+                } else{ // type is error
+
                 }
                 msg->execute();
                 if (msg->getType()==CheckIfCanLoan){
                     std::string out=msg->getToSend();
                     if (out.size()>0){ //send msg that the user has the book
-                        std::cout << out << std::endl;
+                        //std::cout << out << std::endl;
                         handler_->sendBytes(out.c_str(), out.length());
                     }
                 }
                 if (msg->getType() == status){
                     std::string encoded = enddec.encode(msg);
-                    std::cout << encoded << std::endl;
+                    //std::cout << encoded << std::endl;
                     handler_->sendBytes(encoded.c_str(), encoded.length());
                 }
                 if (msg->toBorrow.size()>0){//sends the msg Taking
-                    std::cout << msg->toBorrow << std::endl;
+                    //std::cout << msg->toBorrow << std::endl;
                     handler_->sendBytes(msg->toBorrow.c_str(), msg->toBorrow.length());
                 }
                 info_->addToreceiptPerMsgMap(stoi(msg->getreciptid()), msg);
-                std::cout << enddec.toString(msg) << std::endl;
+                //std::cout << enddec.toString(msg) << std::endl;
             }
         }
     }

@@ -14,7 +14,7 @@ ClientKeyboard::ClientKeyboard(ConnectionHandler* handler,MsgInfo* info,User* us
 
 void ClientKeyboard::run() {
     StompEncoderDecoder enddec(user_);
-    while (!*user_->shouldTerminate()) {
+    while (!*user_->shouldTerminate() ) {
 
         const int bufsize = 1024;
         char buf[bufsize];
@@ -25,14 +25,14 @@ void ClientKeyboard::run() {
         if (msg->getType() == returnn) {
             std::string out = msg->getToSend();
             if (out.size() > 0) { //send msg that the user has the book
-                std::cout << out << std::endl;
-                handler_->sendBytes(out.c_str(), out.length());
+                if (*user_->isConnected())
+                    handler_->sendBytes(out.c_str(), out.length());
             }
         }
         info_->addToreceiptPerMsgMap(stoi(msg->getreciptid()), msg);
         std::string encoded = enddec.encode(msg);
-        std::cout << encoded << std::endl;
-        handler_->sendBytes(encoded.c_str(), encoded.length());
+        if (*user_->isConnected())
+            handler_->sendBytes(encoded.c_str(), encoded.length());
         if (msg->getType() == logout)
             break;
         }

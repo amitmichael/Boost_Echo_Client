@@ -7,17 +7,105 @@
 #include "../include/Message.h"
 
 
-Message::Message(User* user):type(),msgID(),version(),body(),beforeType(),mapMessageType(),destination(),command(),bookName(),userName(),host(),port(),password(),user_(user),subscriptionId(),reciptid(),toSend(){
+Message::Message(User* user):type(),msgID(),version(),body(),beforeType(),mapMessageType(),destination(),command(),bookName(),userName(),host(),port(),password(),user_(user),subscriptionId(),reciptid(),toSend(),errormessage(),end_(){
     loadMessageTypeMap();
     userName = user_->getName();
     reciptid = "-1";
 
 }
 
+bool Message::end(){
+    return end_;
+}
+
+void Message::loaderror(std::string msg) {
+    body="";
+    while (!end_) {
+        std::string line="";
+        int index =0;
+        bool endline=false;
+        bool emptyline=false;
+        for(auto x:msg){
+            if(index==0){
+                if (x == '\n') {
+                    line="";
+                    index++;
+                }
+                else{
+                    line=line+x;
+                }
+            }
+            if (emptyline){
+                index++;
+            }
+            else if (index==1){ //headers parse
+                if(endline){ //checks if it is an empty line and skip it
+                    if (x=='\n'){
+                        index++;
+                        endline=false;
+                        continue;
+                    }
+                    endline=false;
+                }
+                if (x=='\n'){
+                    addNext(line,4);
+                    line="";
+                    endline=true;
+                }
+                else{ line=line+x;}
+            }
+            else if (index==2){
+                if (x=='\n'){
+                    if (body.size() > 0){
+                        body = body + '\n' + line;
+                        line = "";
+                    }
+                    else {
+                        body = line;
+                        line = "";
+                    }
+                }
+                else if (x == '^'){
+                    end_ = true;
+                }
+                else{ line=line+x;}
+            }
+        }
+
+
+
+        if (line == "\0") {
+            end_ = true;
+
+        } else if (index == 0 | index == 1) {
+            addNext(line, 4);
+        } else if (body.size() > 0) {
+            body = body + '\n' + line;
+            line ="";
+        } else {
+            body = line;
+            line = "";
+        }
+    }
+}
+
+
+
 void Message::execute(){
     int receiptid = user_->getAndIncrementreceiptId();
     reciptid = std::to_string(receiptid);
 
+        if (type==error){
+            if (body.find("already logged in")!=std::string::npos){
+                std::cout << "User already logged in" <<std::endl;
+                *user_->shouldTerminate() = true;
+
+            }
+            else if (body.find("Wrong Password")!=std::string::npos) {
+                std::cout << "Wrong Password" <<std::endl;
+                *user_->shouldTerminate() = true;
+            }
+        }
 
         if (type==returnn){
             Book* book = user_->getInv()->getAndRemoveBorrowedBooks(bookName,destination);
@@ -62,16 +150,16 @@ void Message::execute(){
                std::cout<<"logging out... "+getDestination()<<std::endl;
                *user_->shouldTerminate() = true;
            }
+           else if (beforeType==exitt){
+               std::cout<<"Exited club "+getDestination()<<std::endl;
+           }
+
            else{
               std::cout<<"beforeTYPE is invalid"<<std::endl;
            }
        }
        if (type==message){
-
-           if (beforeType==exitt){
-               std::cout<<"Exited club "+getDestination()<<std::endl;
-           }
-           else if(beforeType==add){
+            if(beforeType==add){
                std::cout<<""+userName+" has added the book "+bookName<<std::endl;
            }
            else if (body.find("wish to borrow")!=std::string::npos){ // someone wants to borrow a book
@@ -222,9 +310,13 @@ void Message::addNext(std::string msg,int index){
         else if (header=="Message-id"){
             msgID=msg.substr(pos+1);
         }
+        else if (header=="message"){
+            errormessage=msg.substr(pos+1);
+        }
 
 
     }
+
     ///////////set body///////
     if(index==5){
         body=msg;
@@ -241,6 +333,10 @@ void Message::addNext(std::string msg,int index){
             type = status;
         }
     }
+    if (index ==6){
+            body = msg;
+    }
+
 }
 
 

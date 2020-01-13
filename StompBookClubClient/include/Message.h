@@ -50,6 +50,8 @@ public:
     std::string getToSend();
     std::string toBorrow="";
     std::string getToBorrow();
+    bool end();
+    void loaderror(std::string line);
 
 
 private:
@@ -70,6 +72,8 @@ private:
     std::string subscriptionId;
     std::string reciptid;
     std::string toSend="";
+    std::string errormessage = "";
+    bool end_ = false;
 
 
 
