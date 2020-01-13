@@ -19,6 +19,9 @@ private:
 
 public:
     StompEncoderDecoder(User* user);
+    StompEncoderDecoder(const StompEncoderDecoder &other);
+    StompEncoderDecoder& operator=(const StompEncoderDecoder &other);
+    void copy (User* other_user);
     ~StompEncoderDecoder();
     std::string decodeNextByte(char byte);
     Message* parseMsgFromSocket(char nextbyte);

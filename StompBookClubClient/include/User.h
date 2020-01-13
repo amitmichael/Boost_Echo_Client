@@ -14,9 +14,12 @@ class User {
 
 public:
     User(bool* connected, bool* shouldTerminate);
+    User(const User &other);
+    User& operator=(const User &other);
     ~User();
+    void copy(bool* connected,bool* shouldTerminated, std::string name, bool Default,const Inventory* inventory_,int subscriptionIdCounter,int receiptId,std::vector<std::string> wishList);
+    void clear();
     std::string getName();
-    bool isDefault();
     Inventory* getInv();
     int getAndIncrementSubscriptionId();
     int getAndIncrementreceiptId();
@@ -24,12 +27,10 @@ public:
     void removeFromenreSubIdmap(std::string genre);
     int getSubIdByGenre(std::string genre);
     void setName(std::string name);
-    bool* isConnected();
-    bool* shouldTerminate();
-    void setTermination(bool toTerminate);
+    bool*  isConnected();
+    bool*  shouldTerminate();
     void moveToloaned(std::string borrowed,std::string genere);
     std::vector<std::string>* getWishList() ;
-
 private:
     std::map<std::string,int> genreSubIMmap;
     bool* connected;

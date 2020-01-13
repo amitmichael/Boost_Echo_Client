@@ -7,6 +7,18 @@
 
 
 StompEncoderDecoder::StompEncoderDecoder(User* user):user_(user),bytes(){}
+StompEncoderDecoder::StompEncoderDecoder(const StompEncoderDecoder &other): user_(),bytes(){
+    copy (other.user_);
+}
+StompEncoderDecoder& StompEncoderDecoder::operator=(const StompEncoderDecoder &other){
+    if (this!=&other){
+        copy (other.user_);
+    }
+    return *this;
+}
+void StompEncoderDecoder::copy (User* other_user){
+    user_=other_user;
+}
 StompEncoderDecoder::~StompEncoderDecoder(){
     delete (bytes);
 }
@@ -137,7 +149,7 @@ Message* StompEncoderDecoder::parseMsgFromSocket(std::string msg){
             else{ line=line+x;}
         }
         else if (index==2){
-            if (x=='\n'|x=='^'){
+            if (x=='\n'||x=='^'){
                 parsedMsg->addNext(line,5);
                 return parsedMsg;
             }
