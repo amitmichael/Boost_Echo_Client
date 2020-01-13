@@ -20,22 +20,26 @@ void ClientKeyboard::run() {
         char buf[bufsize];
         std::cin.getline(buf, bufsize);
         std::string line(buf);
-        Message* msg = enddec.parseMsgFromKeyboard(line);
-        msg->execute();
-        if (msg->getType() == returnn) {
-            std::string out = msg->getToSend();
-            if (out.size() > 0) { //send msg that the user has the book
-                if (*user_->isConnected())
-                    handler_->sendBytes(out.c_str(), out.length());
+        Message *msg = enddec.parseMsgFromKeyboard(line);
+        if (msg->getType() == invalid) {
+            std::cout << "Invalid input" << std::endl;
+        } else {
+            msg->execute();
+            if (msg->getType() == returnn) {
+                std::string out = msg->getToSend();
+                if (out.size() > 0) { //send msg that the user has the book
+                    if (*user_->isConnected())
+                        handler_->sendBytes(out.c_str(), out.length());
+                }
             }
+            info_->addToreceiptPerMsgMap(stoi(msg->getreciptid()), msg);
+            std::string encoded = enddec.encode(msg);
+            if (*user_->isConnected())
+                handler_->sendBytes(encoded.c_str(), encoded.length());
+            if (msg->getType() == logout)
+                break;
         }
-        info_->addToreceiptPerMsgMap(stoi(msg->getreciptid()), msg);
-        std::string encoded = enddec.encode(msg);
-        if (*user_->isConnected())
-            handler_->sendBytes(encoded.c_str(), encoded.length());
-        if (msg->getType() == logout)
-            break;
-        }
+    }
 
 }
 
