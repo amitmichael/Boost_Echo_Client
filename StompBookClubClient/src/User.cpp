@@ -10,7 +10,23 @@ User::~User() {
     delete(connected);
     delete(shouldTerminate_);
 }
+void User::copy(const bool* other_connected,const bool* other_shouldTerminated, std::string other_name, bool other_Default,const Inventory* other_inventory,int other_subscriptionIdCounter,int other_receiptId,std::vector<std::string> other_wishList){
+    connected=other_connected;
+    shouldTerminate_=other_shouldTerminated;
+    Default=other_Default;
+    name_ = other_name;
+    inventory_ = new Inventory(other_name);
+    subscriptionIdCounter=other_subscriptionIdCounter;
+    receiptId=other_receiptId;
+    wishList.clear();
+    for(auto  it=other_wishList.begin();it!=other_wishList.end();it++){
+        wishList.push_back(*it);
+    }
+}
 
+User::User(const User &other) {
+
+}
 std::string User::getName(){
     return name_;
 }
@@ -24,11 +40,11 @@ User::User(bool* connected, bool* shouldTerminate):genreSubIMmap(),connected(con
 
 };
 
-bool* User::isConnected(){
+const bool* User::isConnected(){
     return connected;
 }
 
-bool* User::shouldTerminate(){
+const bool* User::shouldTerminate(){
     return shouldTerminate_;
 }
 
@@ -40,7 +56,7 @@ bool User::isDefault(){
 
 
 
-Inventory* User::getInv(){
+const Inventory* User::getInv(){
     return inventory_;
 }
 
