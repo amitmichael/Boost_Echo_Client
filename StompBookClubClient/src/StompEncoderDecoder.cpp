@@ -149,10 +149,12 @@ Message* StompEncoderDecoder::parseMsgFromSocket(std::string msg){
             else{ line=line+x;}
         }
         else if (index==2){
+
             if (x=='\n'||x=='^'){
                 parsedMsg->addNext(line,5);
                 return parsedMsg;
             }
+
             else{ line=line+x;}
         }
     }

@@ -67,7 +67,7 @@ void Inventory::copy(std::string other_username,std::map<std::string,std::vector
 
 void Inventory::addLoanedBook(Book* book) {
     std::string genre = book->getGenre();
-    if (borrowedBooks_.find(genre) != borrowedBooks_.end()){ //genre exist
+    if (borrowedBooks_.count(genre) > 0){ //genre exist
         borrowedBooks_.at(genre)->push_back(book);
     }
     else { // new genre

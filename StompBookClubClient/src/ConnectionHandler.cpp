@@ -32,7 +32,7 @@ bool ConnectionHandler::connect() {
 			throw boost::system::system_error(error);
     }
     catch (std::exception& e) {
-        std::cerr << "Connection failed (Error: " << e.what() << ')' << std::endl;
+        std::cout << "Could not connect to server" << std::endl;
         return false;
     }
     return true;
@@ -48,8 +48,8 @@ bool ConnectionHandler::getBytes(char bytes[], unsigned int bytesToRead) {
 		if(error)
 			throw boost::system::system_error(error);
     } catch (std::exception& e) {
-        std::cerr << "recv failed (Error: " << e.what() << ')' << std::endl;
-        std::cout << "getBytes" << std::endl;
+        std::cerr << "recv failed1 (Error: " << e.what() << ')' << std::endl;
+        //std::cout << "getBytes" << std::endl;
 
         return false;
     }
@@ -66,8 +66,8 @@ bool ConnectionHandler::sendBytes(const char bytes[], int bytesToWrite) {
 		if(error)
 			throw boost::system::system_error(error);
     } catch (std::exception& e) {
-        std::cerr << "recv failed (Error: " << e.what() << ')' << std::endl;
-        std::cout << "sendBytes" << std::endl;
+        std::cerr << "recv failed2 (Error: " << e.what() << ')' << std::endl;
+        //std::cout << "sendBytes" << std::endl;
         return false;
     }
     return true;
@@ -99,8 +99,8 @@ bool ConnectionHandler::getFrameAscii(std::string& frame, char delimiter) {
 			frame.append(1, ch);
 	}while (delimiter != ch);
     } catch (std::exception& e) {
-	std::cerr << "recv failed2 (Error: " << e.what() << ')' << std::endl;
-	std::cout << "getFrameAscii" << std::endl;
+	std::cerr << "recv failed3 (Error: " << e.what() << ')' << std::endl;
+	//std::cout << "getFrameAscii" << std::endl;
         return false;
     }
     return true;

@@ -21,8 +21,8 @@ enum MessageType {login,
     connected,
     error,
     recepit,
-    message
-
+    message,
+    invalid
     };
 
 class Message {
@@ -51,6 +51,8 @@ public:
     User* getUser();
     std::string getToSend();
     std::string toBorrow="";
+    bool end();
+    void loaderror(std::string line);
 
 
 private:
@@ -71,6 +73,8 @@ private:
     std::string subscriptionId;
     std::string reciptid;
     std::string toSend="";
+    std::string errormessage = "";
+    bool end_ = false;
 
 
 

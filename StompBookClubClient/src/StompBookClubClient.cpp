@@ -36,6 +36,11 @@ int main (int argc, char *argv[]) {
         char buf[bufsize];
         std::cin.getline(buf, bufsize);
         std::string line(buf);
+        if (line == "bye"){
+            *connected = false;
+            *shouldTerminate = true;
+            break;
+        }
         msg = enddec.parseMsgFromKeyboard(line);
         if (msg->getType() == login) {
             std::string host = msg->getHost();
@@ -45,23 +50,22 @@ int main (int argc, char *argv[]) {
                 *connected = connectionHandler->connect();
             } catch (std::exception &e) {
                 std::cerr << "Connection failed (Error: " << e.what() << ')' << std::endl;
-                delete(connectionHandler);
+                delete (connectionHandler);
             }
-
         }
-     else{
+
+        else{
         std::cout << "please login to continue" << std::endl;
         }
-
-    }
+        }
 
     msg->execute();
     ClientKeyboard clientKeyboard(connectionHandler, info, user, _mutex);
     ClientSocket clientSocket(connectionHandler, info, user, _mutex);
     info->addToreceiptPerMsgMap(stoi(msg->getreciptid()), msg);
     std::string encoded = enddec.encode(msg);
-    std::cout << encoded << std::endl;
-    connectionHandler->sendBytes(encoded.c_str(), encoded.length());
+    if (*connected)
+        connectionHandler->sendBytes(encoded.c_str(), encoded.length());
     std::thread threadKeyboard(&ClientKeyboard::run, &clientKeyboard); // run keyboard thread
     std::thread threadSocket(&ClientSocket::run, &clientSocket); // run socket thread
     threadKeyboard.join();
