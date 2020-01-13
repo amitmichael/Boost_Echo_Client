@@ -10,7 +10,7 @@
 
 ClientSocket::ClientSocket(ConnectionHandler* handler,MsgInfo* info,User* user,std::mutex * _mutex): handler_(handler),host_(),port_(),info_(info),user_(user),_mutex(_mutex){};
 
-ClientSocket::ClientSocket(const ClientSocket &other){
+ClientSocket::ClientSocket(const ClientSocket &other):handler_(),host_(),port_(),info_(),user_(),_mutex(){
     copy (other.handler_,other.info_,other.user_,other._mutex) ;
 }
 ClientSocket& ClientSocket::operator=(const ClientSocket &other){
