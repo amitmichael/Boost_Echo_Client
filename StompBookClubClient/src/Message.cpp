@@ -132,6 +132,10 @@ void Message::execute(){
                 std::cout << "Wrong Password" <<std::endl;
                 *user_->shouldTerminate() = true;
             }
+            else if (body.find("malformed")!=std::string::npos){
+                std::cout << "Malformed frame received" <<std::endl;
+                *user_->shouldTerminate() = true;
+            }
         }
 
         if (type==returnn){
@@ -187,7 +191,12 @@ void Message::execute(){
        }
        if (type==message){
            std::cout<<destination+":"+body<<std::endl;
-           if(beforeType==add){
+
+           if (body.find("Book status")!=std::string::npos) {
+                type = statusResponse;
+           }
+
+           else if(beforeType==add){
                //std::cout<<destination+":"+userName+" has added the book "+bookName<<std::endl;
            }
            else if (body.find("wish to borrow")!=std::string::npos){ // someone wants to borrow a book
@@ -257,9 +266,7 @@ void Message::execute(){
         }
         }
 
-       if (type == status){
 
-       }
 
 }
 
@@ -306,13 +313,23 @@ void Message::addNext(std::string msg,int index) {
 
 
             ////// second add////////////////////////////
+            if (index > 1){
+                if (type == add || type == wantToBorrow || type == returnn){
+                    if (bookName.size()>0){
+                        bookName = bookName + " " + msg;
+                    }
+                    else {
+                        bookName = msg;
+                    }
+
+                }
+            }
+
             if (index == 2) {
                 if (type == login) {
                     userName = msg;
                 }
-                if (type == add || type == wantToBorrow || type == returnn) {
-                    bookName = msg;
-                }
+
             }
 
                 ////// third add////////////////////////////
