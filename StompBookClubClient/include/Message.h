@@ -66,10 +66,10 @@ private:
     std::string destination;
     std::string command;
     std::string bookName;
-    std::string userName;
+    std::string userName = "";
     std::string host;
     int port;
-    std::string password;
+    std::string password ="";
     User* user_;
     std::string subscriptionId;
     std::string reciptid;

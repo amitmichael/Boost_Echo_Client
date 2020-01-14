@@ -132,6 +132,10 @@ void Message::execute(){
                 std::cout << "Wrong Password" <<std::endl;
                 *user_->shouldTerminate() = true;
             }
+            else if (body.find("malformed")!=std::string::npos){
+                std::cout << "Malformed frame received" <<std::endl;
+                *user_->shouldTerminate() = true;
+            }
         }
 
         if (type==returnn){
@@ -309,13 +313,23 @@ void Message::addNext(std::string msg,int index) {
 
 
             ////// second add////////////////////////////
+            if (index > 1){
+                if (type == add || type == wantToBorrow || type == returnn){
+                    if (bookName.size()>0){
+                        bookName = bookName + " " + msg;
+                    }
+                    else {
+                        bookName = msg;
+                    }
+
+                }
+            }
+
             if (index == 2) {
                 if (type == login) {
                     userName = msg;
                 }
-                if (type == add || type == wantToBorrow || type == returnn) {
-                    bookName = msg;
-                }
+
             }
 
                 ////// third add////////////////////////////

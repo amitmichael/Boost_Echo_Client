@@ -94,6 +94,7 @@ Message* StompEncoderDecoder::parseMsgFromKeyboard(std::string msg) {
                 parsedMsg->addNext(word,index);
                 word = "";
                 index++;
+
             }
         }
         else {
