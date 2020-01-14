@@ -61,12 +61,12 @@ std::string StompEncoderDecoder::toString(Message* m) {
        // toReturn = "SEND\ndestination:" + m->getDestination() +'\n' + '\n'  + "Returning " + m->getBookName() + " to " + "" + '\n' + '\0';
     }
     if (m->getType() == status){
-        toReturn = "SEND\ndestination:" + m->getDestination() +'\n' + '\n'  + "book status"  + '\n' + '\0';
+        toReturn = "SEND\ndestination:" + m->getDestination() +'\n' + '\n'  + "Book status"  + '\n' + '\0';
     }
     if (m->getType() == logout){
         toReturn = "DISCONNECT\nreceipt:" + m->getreciptid() + '\n'  + '\n' + '\0';
     }
-    if (m->getType() == status){
+    if (m->getType() == statusResponse){
         std::string bodyToSend =user_->getName() + ":" ;
         Inventory* inv =  user_->getInv();
         bodyToSend = bodyToSend + inv->getStatus(m->getDestination());

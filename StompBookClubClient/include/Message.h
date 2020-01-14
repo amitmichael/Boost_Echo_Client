@@ -22,7 +22,8 @@ enum MessageType {login,
     error,
     recepit,
     message,
-    invalid
+    invalid,
+    statusResponse
     };
 
 class Message {

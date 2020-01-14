@@ -187,7 +187,12 @@ void Message::execute(){
        }
        if (type==message){
            std::cout<<destination+":"+body<<std::endl;
-           if(beforeType==add){
+
+           if (body.find("Book status")!=std::string::npos) {
+                type = statusResponse;
+           }
+
+           else if(beforeType==add){
                //std::cout<<destination+":"+userName+" has added the book "+bookName<<std::endl;
            }
            else if (body.find("wish to borrow")!=std::string::npos){ // someone wants to borrow a book
@@ -257,9 +262,7 @@ void Message::execute(){
         }
         }
 
-       if (type == status){
 
-       }
 
 }
 

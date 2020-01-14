@@ -68,13 +68,11 @@ void ClientSocket::run() {
                         handler_->sendBytes(out.c_str(), out.length());
                     }
                 }
-                if (msg->getType() == status){
+                if (msg->getType() == statusResponse){
                     std::string encoded = enddec.encode(msg);
-                    //std::cout << encoded << std::endl;
                     handler_->sendBytes(encoded.c_str(), encoded.length());
                 }
                 if (msg->toBorrow.size()>0){//sends the msg Taking
-                    //std::cout << msg->toBorrow << std::endl;
                     handler_->sendBytes(msg->toBorrow.c_str(), msg->toBorrow.length());
                 }
                 info_->addToreceiptPerMsgMap(stoi(msg->getreciptid()), msg);
