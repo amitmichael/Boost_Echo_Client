@@ -19,10 +19,10 @@ class ClientSocket {
 
 public:
 
-    ClientSocket(ConnectionHandler* handler,MsgInfo* info,User* user,std::mutex * _mutex);
+    ClientSocket(ConnectionHandler* handler,MsgInfo* info,User* user);
     ClientSocket(const ClientSocket &other);
     ClientSocket& operator=(const ClientSocket &other);
-    void copy (ConnectionHandler* other_handler,MsgInfo* other_info,User* other_user,std::mutex * other_mutex);
+    void copy (ConnectionHandler* other_handler,MsgInfo* other_info,User* other_user);
     void connect();
     void run();
 
@@ -32,7 +32,6 @@ private:
     int port_;
     MsgInfo* info_;
     User* user_;
-    std::mutex * _mutex;
 
 
 

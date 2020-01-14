@@ -32,8 +32,8 @@ Inventory::~Inventory(){
 }
 
 
-Inventory::Inventory(std::string username):username_(username),books_(),borrowedBooks_(),loanedBooks_(){}
-Inventory::Inventory(const Inventory &other):username_(),books_(),borrowedBooks_(),loanedBooks_() {
+Inventory::Inventory(std::string username):username_(username),books_(),borrowedBooks_(),loanedBooks_(),booksMapLock(){}
+Inventory::Inventory(const Inventory &other):username_(),books_(),borrowedBooks_(),loanedBooks_(),booksMapLock() {
     copy(other.username_,other.books_,other.borrowedBooks_,other.loanedBooks_);
 }
 void Inventory::copy(std::string other_username,std::map<std::string,std::vector<Book*>*> other_books,std::map<std::string,std::vector<Book*>*> other_borrowedBooks,
@@ -54,7 +54,7 @@ void Inventory::copy(std::string other_username,std::map<std::string,std::vector
 
 }
     void Inventory::addBook(Book* book){
-        booksMapLock.lock();
+       booksMapLock.lock();
         std::string genre = book->getGenre();
         if (books_.find(genre) != books_.end()){ //genre exist
             books_.at(genre)->push_back(book);
@@ -64,7 +64,7 @@ void Inventory::copy(std::string other_username,std::map<std::string,std::vector
             vec->push_back(book);
             books_.insert(std::make_pair(genre, vec));
         }
-        booksMapLock.lock();
+        booksMapLock.unlock();
     }
 
 void Inventory::addLoanedBook(Book* book) {

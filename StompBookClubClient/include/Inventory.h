@@ -34,10 +34,10 @@ public:
 
     private:
     std::string username_;
-    std::mutex booksMapLock;
     std::map<std::string,std::vector<Book*>*> books_; // key - genre , vector of books
     std::map<std::string,std::vector<Book*>*> borrowedBooks_;
     std::map<std::string,std::vector<Book*>*> loanedBooks_;
+    std::mutex booksMapLock;
 
 
 
