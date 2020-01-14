@@ -54,6 +54,7 @@ void Inventory::copy(std::string other_username,std::map<std::string,std::vector
 
 }
     void Inventory::addBook(Book* book){
+        booksMapLock.lock();
         std::string genre = book->getGenre();
         if (books_.find(genre) != books_.end()){ //genre exist
             books_.at(genre)->push_back(book);
@@ -63,10 +64,12 @@ void Inventory::copy(std::string other_username,std::map<std::string,std::vector
             vec->push_back(book);
             books_.insert(std::make_pair(genre, vec));
         }
+        booksMapLock.lock();
     }
 
 void Inventory::addLoanedBook(Book* book) {
     std::string genre = book->getGenre();
+    booksMapLock.lock();
     if (borrowedBooks_.count(genre) > 0){ //genre exist
         borrowedBooks_.at(genre)->push_back(book);
     }
@@ -75,6 +78,8 @@ void Inventory::addLoanedBook(Book* book) {
         vec->push_back(book);
         borrowedBooks_.insert(std::make_pair(genre, vec));
     }
+    booksMapLock.unlock();
+
 }
 
 std::map<std::string,std::vector<Book*>*>* Inventory::getBooks() {
@@ -115,6 +120,7 @@ std::map<std::string,std::vector<Book*>*>* Inventory::getLoanedBooks()  {
     }
 
     void Inventory::returnBook(Book* book,std::string genre,std::string userName,int index){
+        booksMapLock.lock(); // only one thread can return a book at a time
     if (book->getOwner() == userName){ // the book is mine return to books
         books_.at(genre)->push_back(book);
         loanedBooks_.at(genre)->erase(loanedBooks_.at(genre)->begin()+ index);
@@ -123,6 +129,7 @@ std::map<std::string,std::vector<Book*>*>* Inventory::getLoanedBooks()  {
         borrowedBooks_.at(genre)->push_back(book);
         loanedBooks_.at(genre)->erase(loanedBooks_.at(genre)->begin()+ index);
     }
+        booksMapLock.unlock();
     }
 
 
@@ -131,10 +138,13 @@ Book* Inventory::getAndRemoveBorrowedBooks(std::string bookName,std::string genr
         Book *book;
         for (unsigned int i = 0; i < vec->size(); i++) {
             book = vec->at(i);
+            booksMapLock.lock(); // only one thread can erase a book at a time
             if (book->getName() == bookName) {
                 vec->erase(vec->begin()+i);
                 return book;
             }
+            booksMapLock.unlock();
+
         }
         return nullptr;
     }
