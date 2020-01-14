@@ -8,21 +8,20 @@
 
 
 
-ClientSocket::ClientSocket(ConnectionHandler* handler,MsgInfo* info,User* user,std::mutex * _mutex): handler_(handler),host_(),port_(),info_(info),user_(user),_mutex(_mutex){};
+ClientSocket::ClientSocket(ConnectionHandler* handler,MsgInfo* info,User* user): handler_(handler),host_(),port_(),info_(info),user_(user){};
 
-ClientSocket::ClientSocket(const ClientSocket &other):handler_(),host_(),port_(),info_(),user_(),_mutex(){
-    copy (other.handler_,other.info_,other.user_,other._mutex) ;
+ClientSocket::ClientSocket(const ClientSocket &other):handler_(),host_(),port_(),info_(),user_(){
+    copy (other.handler_,other.info_,other.user_) ;
 }
 ClientSocket& ClientSocket::operator=(const ClientSocket &other){
     if (this!=&other){
-        copy (other.handler_,other.info_,other.user_,other._mutex) ;
+        copy (other.handler_,other.info_,other.user_) ;
     }
     return *this;
 }
-void ClientSocket::copy (ConnectionHandler* other_handler,MsgInfo* other_info,User* other_user,std::mutex * other_mutex){
+void ClientSocket::copy (ConnectionHandler* other_handler,MsgInfo* other_info,User* other_user){
     handler_=other_handler;
     info_=other_info;
-    _mutex=other_mutex;
 }
 void ClientSocket::connect() {
 
@@ -40,9 +39,8 @@ void ClientSocket::run() {
     StompEncoderDecoder enddec(user_);
     while (!*user_->shouldTerminate() ) {
         if (*user_->isConnected()) {
-            //std::lock_guard<std::mutex> lock(*_mutex);
             std::string toAdd = "";
-            while (handler_->getLine(toAdd) != false) {
+            while (!handler_->getLine(toAdd)) {
             }
             Message *msg = enddec.parseMsgFromSocket(toAdd);
             /// error case////

@@ -8,26 +8,25 @@
 #include "../include/MsgInfo.h"
 
 
-ClientKeyboard::ClientKeyboard(ConnectionHandler* handler,MsgInfo* info,User* user,std::mutex * _mutex) : handler_(handler),host_(),port_(),info_(info),user_(user),_mutex(_mutex){};
-ClientKeyboard::ClientKeyboard(const ClientKeyboard &other):handler_(),host_(),port_(),info_(),user_(),_mutex(other._mutex){
-    copy (other.handler_,other.info_,other.user_,other._mutex) ;
+ClientKeyboard::ClientKeyboard(ConnectionHandler* handler,MsgInfo* info,User* user) : handler_(handler),host_(),port_(),info_(info),user_(user),toContinue(true){};
+ClientKeyboard::ClientKeyboard(const ClientKeyboard &other):handler_(),host_(),port_(),info_(),user_(),toContinue(true){
+    copy (other.handler_,other.info_,other.user_) ;
 }
 ClientKeyboard& ClientKeyboard::operator=(const ClientKeyboard &other){
     if (this!=&other){
-        copy (other.handler_,other.info_,other.user_,other._mutex) ;
+        copy (other.handler_,other.info_,other.user_) ;
     }
     return *this;
 }
-void ClientKeyboard::copy (ConnectionHandler* other_handler,MsgInfo* other_info,User* other_user,std::mutex * other_mutex){
+void ClientKeyboard::copy (ConnectionHandler* other_handler,MsgInfo* other_info,User* other_user){
     handler_=other_handler;
     info_=other_info;
-    _mutex=other_mutex;
 }
 
 
 void ClientKeyboard::run() {
     StompEncoderDecoder enddec(user_);
-    while (!*user_->shouldTerminate() ) {
+    while (!*user_->shouldTerminate() & toContinue ) {
 
         const int bufsize = 1024;
         char buf[bufsize];
@@ -50,7 +49,7 @@ void ClientKeyboard::run() {
             if (*user_->isConnected())
                 handler_->sendBytes(encoded.c_str(), encoded.length());
             if (msg->getType() == logout)
-                break;
+                toContinue= false;
         }
     }
 

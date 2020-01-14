@@ -4,6 +4,7 @@
 #include <string>
 #include <iostream>
 #include <boost/asio.hpp>
+#include <mutex>
 
 using boost::asio::ip::tcp;
 
@@ -12,8 +13,10 @@ private:
     const std::string host_;
 	const short port_;
 	boost::asio::io_service io_service_;   // Provides core I/O functionality
-	tcp::socket socket_; 
- 
+	tcp::socket socket_;
+    std::mutex sendLock;
+
+
 public:
     ConnectionHandler(std::string host, short port);
     virtual ~ConnectionHandler();

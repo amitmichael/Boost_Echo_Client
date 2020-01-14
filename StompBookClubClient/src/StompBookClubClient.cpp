@@ -20,7 +20,6 @@ int main (int argc, char *argv[]) {
 
 
     /// variables
-    std::mutex *_mutex = new std::mutex;
     ConnectionHandler* connectionHandler;//
     bool *connected = new bool(false);
     bool *shouldTerminate = new bool(false);
@@ -36,11 +35,6 @@ int main (int argc, char *argv[]) {
         char buf[bufsize];
         std::cin.getline(buf, bufsize);
         std::string line(buf);
-        if (line == "bye"){
-            *connected = false;
-            *shouldTerminate = true;
-            break;
-        }
         msg = enddec.parseMsgFromKeyboard(line);
         if (msg->getType() == login) {
             std::string host = msg->getHost();
@@ -60,8 +54,8 @@ int main (int argc, char *argv[]) {
         }
 
     msg->execute();
-    ClientKeyboard clientKeyboard(connectionHandler, info, user, _mutex);
-    ClientSocket clientSocket(connectionHandler, info, user, _mutex);
+    ClientKeyboard clientKeyboard(connectionHandler, info, user);
+    ClientSocket clientSocket(connectionHandler, info, user);
     info->addToreceiptPerMsgMap(stoi(msg->getreciptid()), msg);
     std::string encoded = enddec.encode(msg);
     if (*connected)
@@ -76,7 +70,6 @@ int main (int argc, char *argv[]) {
     delete(info);
     delete(connectionHandler);
     delete(user);
-    delete(_mutex);
 
     return 0;
 }

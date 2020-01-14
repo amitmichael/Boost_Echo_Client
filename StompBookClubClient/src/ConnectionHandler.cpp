@@ -13,7 +13,7 @@ using std::cerr;
 using std::endl;
 using std::string;
  
-ConnectionHandler::ConnectionHandler(string host, short port): host_(host), port_(port), io_service_(), socket_(io_service_){}
+ConnectionHandler::ConnectionHandler(string host, short port): host_(host), port_(port), io_service_(), socket_(io_service_),sendLock(){}
     
 ConnectionHandler::~ConnectionHandler() {
     close();
@@ -49,7 +49,6 @@ bool ConnectionHandler::getBytes(char bytes[], unsigned int bytesToRead) {
 			throw boost::system::system_error(error);
     } catch (std::exception& e) {
         std::cerr << "recv failed1 (Error: " << e.what() << ')' << std::endl;
-        //std::cout << "getBytes" << std::endl;
 
         return false;
     }
@@ -57,6 +56,7 @@ bool ConnectionHandler::getBytes(char bytes[], unsigned int bytesToRead) {
 }
 
 bool ConnectionHandler::sendBytes(const char bytes[], int bytesToWrite) {
+    sendLock.lock();
     int tmp = 0;
 	boost::system::error_code error;
     try {
@@ -67,21 +67,22 @@ bool ConnectionHandler::sendBytes(const char bytes[], int bytesToWrite) {
 			throw boost::system::system_error(error);
     } catch (std::exception& e) {
         std::cerr << "recv failed2 (Error: " << e.what() << ')' << std::endl;
-        //std::cout << "sendBytes" << std::endl;
+        sendLock.unlock();
         return false;
     }
+    sendLock.unlock();
     return true;
 }
  
 bool ConnectionHandler::getLine(std::string& line) {
-    if (line.find('@')!=std::string::npos){
-        return false;
-    }
-    return getFrameAscii(line, '\n');
+//    if (line.find('\0')!=std::string::npos){
+//        return false;
+//    }
+    return getFrameAscii(line, '\0');
 }
 
 bool ConnectionHandler::sendLine(std::string& line) {
-    return sendFrameAscii(line, '\n');
+    return sendFrameAscii(line, '\0');
 }
  
 
@@ -95,12 +96,11 @@ bool ConnectionHandler::getFrameAscii(std::string& frame, char delimiter) {
 		{
 			return false;
 		}
-		if(ch!='\0')  
+		if(ch!='\0')
 			frame.append(1, ch);
 	}while (delimiter != ch);
     } catch (std::exception& e) {
 	std::cerr << "recv failed3 (Error: " << e.what() << ')' << std::endl;
-	//std::cout << "getFrameAscii" << std::endl;
         return false;
     }
     return true;

@@ -92,7 +92,7 @@ void Message::loaderror(std::string msg) {
                         line = "";
                     }
                 }
-                else if (x == '^'){
+                else if (x == '\0'){
                     end_ = true;
                 }
                 else{ line=line+x;}
@@ -192,7 +192,7 @@ void Message::execute(){
        if (type==message){
            std::cout<<destination+":"+body<<std::endl;
 
-           if (body.find("Book status")!=std::string::npos) {
+           if (body.find("status")!=std::string::npos) {
                 type = statusResponse;
            }
 
@@ -238,6 +238,7 @@ void Message::execute(){
                      book = *it;
                      if (book == bookToBorrow) {
                          found = true;
+                         vec->erase(it);
                      }
                  }
                  if (found){
@@ -372,8 +373,8 @@ void Message::addNext(std::string msg,int index) {
                         int i = msg.find("borrow");
                         bookName = msg.substr(i + 7);
                     }
-                    if (msg.find("book status") != std::string::npos) {
-                        type = status;
+                    if (msg.find("status") != std::string::npos) {
+                        type = statusResponse;
                     }
                 }
                 if (index == 6) {

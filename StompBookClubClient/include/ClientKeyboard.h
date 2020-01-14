@@ -15,10 +15,10 @@ class ClientKeyboard {
 
 public:
 
-    ClientKeyboard(ConnectionHandler* handler,MsgInfo* info,User* user,std::mutex * _mutex);
+    ClientKeyboard(ConnectionHandler* handler,MsgInfo* info,User* user);
     ClientKeyboard(const ClientKeyboard &other);
     ClientKeyboard& operator=(const ClientKeyboard &other);
-    void copy (ConnectionHandler* other_handler,MsgInfo* other_info,User* other_user,std::mutex * other_mutex);
+    void copy (ConnectionHandler* other_handler,MsgInfo* other_info,User* other_user);
     void run();
 
 private:
@@ -27,7 +27,7 @@ private:
     int port_;
     MsgInfo* info_;
     User* user_;
-    std::mutex * _mutex;
+    bool toContinue;
 
 
 
