@@ -136,16 +136,16 @@ std::map<std::string,std::vector<Book*>*>* Inventory::getLoanedBooks()  {
 Book* Inventory::getAndRemoveBorrowedBooks(std::string bookName,std::string genre){
         std::vector<Book *>* vec = borrowedBooks_.at(genre);
         Book *book;
+        booksMapLock.lock(); // only one thread can erase a book at a time
         for (unsigned int i = 0; i < vec->size(); i++) {
             book = vec->at(i);
-            booksMapLock.lock(); // only one thread can erase a book at a time
             if (book->getName() == bookName) {
                 vec->erase(vec->begin()+i);
+                booksMapLock.unlock();
                 return book;
             }
-            booksMapLock.unlock();
-
         }
+        booksMapLock.unlock();
         return nullptr;
     }
 

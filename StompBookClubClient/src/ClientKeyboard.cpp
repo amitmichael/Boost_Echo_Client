@@ -35,6 +35,7 @@ void ClientKeyboard::run() {
         Message *msg = enddec.parseMsgFromKeyboard(line);
         if (msg->getType() == invalid) {
             std::cout << "Invalid input" << std::endl;
+            delete (msg);
         } else {
             msg->execute();
             if (msg->getType() == returnn) {
