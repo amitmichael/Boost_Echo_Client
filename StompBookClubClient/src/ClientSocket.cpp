@@ -50,6 +50,7 @@ void ClientSocket::run() {
                     msg->execute();
                     handler_->close();// close the connection due to error
                     *user_->isConnected() = false;
+                    delete(msg);
             }
             else if (msg != nullptr) {
                     int rid = stoi(msg->getreciptid());
